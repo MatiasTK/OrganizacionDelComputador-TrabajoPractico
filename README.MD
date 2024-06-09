@@ -1,5 +1,13 @@
 # Trabajo Práctico “El Zorro y las Ocas”
 
+## Compilación y ejecución
+
+Para ejecutar el programa se debe compilar los archivos con el siguiente script:
+
+```bash
+sh run.sh
+```
+
 ## Elementos
 
 El juego se desarrolla en un tablero con treinta y tres hendiduras, dispuestas en forma de cruz, tal y como se puede apreciar en la ilustración.
