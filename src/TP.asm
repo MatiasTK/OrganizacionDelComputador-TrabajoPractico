@@ -12,19 +12,20 @@ extern obtenerElemento
 extern moverSobreOca
 section .data
     matriz dw "-","-","O","O","O","-","-"
-           dw "-","-","O","O","O","-","-"
+           dw "-","-","O"," ","O","-","-"
            dw "O","O","O","O","O","O","O"
            dw "O"," "," "," "," "," ","O"
-           dw "O"," "," ","X"," "," ","O"
+           dw "O"," ","O","X"," "," ","O"
            dw "-","-"," "," "," ","-","-"
            dw "-","-"," "," "," ","-","-"
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
+    ;     msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgSeleccion db "Seleccion: ",0
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
     msgTurnoOcaRaw db "TURNO DE LA OCA",10,0
-    msgOcaFila db "Elige la fila (X) de la oca a controlar: ", 0
-    msgOcaColumna db "Elige la columna (Y) de la oca a controlar: ", 0
+    msgOcaFila db "Elige la columna (X) de la oca a controlar: ", 0
+    msgOcaColumna db "Elige la fila (Y) de la oca a controlar: ", 0
     msgTurnoOca db "TURNO DE LA OCA en la posicion X:%i Y:%i",10,0
     msgErrorTecla db "ERROR: La tecla ingresada no es valida",10,0
     msgErrorOca db "ERROR: No se puede comer a la oca",10,0
@@ -35,18 +36,20 @@ section .data
     msgErrorPosicionOca db "ERROR: La posicion seleccionada no es valida",10,0
     msgGanadorZorro db "JUEGO FINALIZADO: Gana el zorro por matar a 12 ocas",10,0
     msgGanadorOca db "JUEGO FINALIZADO: Ganan las ocas por encerrar al zorro",10,0
+    msgTurnoZorroKill db "El zorro se comio una oca, vuelve a jugar", 10,0
+    zorroComio db 0; 0 False, 1 True
     posXZorro db 4
     posYZorro db 5
     posXOca dq 0
     posYOca dq 0
     ocasMatadas db 0
     turnoActual db "Z"
+    movimientoAtras db 'W'; Siempre en uppercase
     formatoPos db "%i",0
 section .bss
     posXOcaRaw resq 1
     posYOcaRaw resq 1
     movimientoTecla resb 1
-
 section .text
 main:
     mov rdi,matriz
@@ -54,6 +57,16 @@ main:
     call imprimirMatriz
     add rsp,8
 comenzarMovimiento:
+    cmp byte[zorroComio], 0
+    je noComio
+
+    mov rdi, msgTurnoZorroKill
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    mov byte[zorroComio], 0
+noComio:
     mov rdi,msgTurnoZorro
     sub rsp,8
     call printf
@@ -340,6 +353,19 @@ movimientoInvalidoKill:
     call printf
     add rsp,8
     jmp preguntarMovimiento
+actualizarZorro:
+    mov [posXZorro], rcx
+    mov [posYZorro], r8
+
+    sub rsp,8
+    call moverElemento
+    add rsp,8
+
+    jmp terminarMovimiento
+volverAJugarZorro:
+    mov byte[zorroComio], 1
+    mov byte[turnoActual], 'O'; Para que vuelva a jugar el zorro
+    jmp actualizarZorro
 moverseArriba:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -384,20 +410,11 @@ moverseArriba:
     dec r8
 
     cmp rax,0
-    je realizarMovimientoArriba
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     dec r8
-realizarMovimientoArriba:
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
-
+    jmp volverAJugarZorro
 moverseAbajo:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -442,20 +459,11 @@ moverseAbajo:
     inc r8
 
     cmp rax,0
-    je realizarMovimientoAbajo
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     inc r8
-realizarMovimientoAbajo:
-
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 
 moverseIzquierda:
     mov rdi, [posXZorro]
@@ -501,19 +509,11 @@ moverseIzquierda:
     dec rcx
 
     cmp rax,0
-    je realizarMovimientoIzquierda
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     dec rcx
-realizarMovimientoIzquierda:
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 moverseDerecha:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -558,19 +558,11 @@ moverseDerecha:
     inc rcx
 
     cmp rax,0
-    je realizarMovimientoDerecha
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     inc rcx
-realizarMovimientoDerecha:
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 moverseArribaIzquierda:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -623,22 +615,12 @@ moverseArribaIzquierda:
     dec r8
 
     cmp rax,0
-    je realizarMovimientoArribaIzquierda
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     dec rcx
     dec r8
-
-realizarMovimientoArribaIzquierda:
-
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 moverseArribaDerecha:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -690,22 +672,12 @@ moverseArribaDerecha:
     dec r8
 
     cmp rax,0
-    je realizarMovimientoArribaDerecha
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     inc rcx
     dec r8
-
-realizarMovimientoArribaDerecha:
-
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 moverseAbajoIzquierda:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -757,23 +729,12 @@ moverseAbajoIzquierda:
     inc r8
 
     cmp rax,0
-    je realizarMovimientoAbajoIzquierda
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     dec rcx
     inc r8
-
-realizarMovimientoAbajoIzquierda:
-
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
-
+    jmp volverAJugarZorro
 moverseAbajoDerecha:
     mov rdi, [posXZorro]
     mov rsi, [posYZorro]
@@ -825,22 +786,12 @@ moverseAbajoDerecha:
     inc r8
 
     cmp rax,0
-    je realizarMovimientoAbajoDerecha
+    je actualizarZorro
 
     inc byte[ocasMatadas]
     inc rcx
     inc r8
-
-realizarMovimientoAbajoDerecha:
-
-    mov [posXZorro], rcx
-    mov [posYZorro], r8
-
-    sub rsp,8
-    call moverElemento
-    add rsp,8
-
-    jmp terminarMovimiento
+    jmp volverAJugarZorro
 preguntarMovimientoOca:
     mov rdi, msgSeleccion
     sub rsp,8
@@ -869,6 +820,17 @@ teclaInvalidaOca:
     add rsp,8
     jmp preguntarMovimientoOca
 moverseOca:
+    sub rax,rax
+    mov al, [movimientoAtras]
+
+    cmp byte [movimientoTecla], al
+    je volverAPreguntarOca
+
+    add al, 32; To lowercase
+
+    cmp byte [movimientoTecla], al
+    je volverAPreguntarOca
+
     cmp byte [movimientoTecla], 'W'
     je moverseArribaOca
 
@@ -899,6 +861,7 @@ moverseOca:
     cmp byte[movimientoTecla], 'x'
     je salirTecla
 
+volverAPreguntarOca:
     mov rdi,msgErrorTecla
     sub rsp,8
     call printf
