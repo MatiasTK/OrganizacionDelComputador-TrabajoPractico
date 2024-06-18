@@ -11,14 +11,22 @@ extern estaZorroEncerrado
 extern obtenerElemento
 extern moverSobreOca
 extern fread
+extern fwrite
+extern fopen
+extern fclose
+
+
 section .data
-    matriz dw "-","-","O","O","O","-","-"
-           dw "-","-","O","O","O","-","-"
-           dw "O","O","O","O","O","O","O"
-           dw "O"," "," "," "," "," ","O"
-           dw "O"," "," ","X"," "," ","O"
-           dw "-","-"," "," "," ","-","-"
-           dw "-","-"," "," "," ","-","-"
+    format db "%s",0
+
+    registro times 0 db ""
+    matriz  dw "-","-","O","O","O","-","-" ; GUARDAR
+            dw "-","-","O","O","O","-","-"
+            dw "O","O","O","O","O","O","O"
+            dw "O"," "," "," "," "," ","O"
+            dw "O"," "," ","X"," "," ","O"
+            dw "-","-"," "," "," ","-","-"
+            dw "-","-"," "," "," ","-","-"
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
     ;msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
@@ -35,39 +43,227 @@ section .data
     msgErrorOcaEncerrada db "ERROR: La oca esta encerrada y no se puede mover, selecciona otra oca",10,0
     msgErrorPosicion db "ERROR: No te puedes mover a esa posicion",10,0
     msgErrorPosicionOca db "ERROR: La posicion seleccionada no es valida",10,0
+    msgErrorLectura db "ERROR: No se pudo leer el archivo de guardado",10,0
+    msgErrorEscritura db "ERROR: No se pudo guardar el archivo",10,0
     msgGanadorZorro db "JUEGO FINALIZADO: Gana el zorro por matar a 12 ocas",10,0
     msgGanadorOca db "JUEGO FINALIZADO: Ganan las ocas por encerrar al zorro",10,0
     msgTurnoZorroKill db "El zorro se comio una oca, vuelve a jugar", 10,0
     msgEstadisticasZorro db "ESTADISTICAS DEL ZORRO", 10, "Movimientos hacia arriba: %i", 10, "Movimientos hacia abajo: %i", 10, "Movimientos hacia la izquierda: %i", 10, "Movimientos hacia la derecha: %i", 10, "Movimientos hacia diagonal arriba izquierda: %i", 10, "Movimientos hacia diagonal arriba derecha: %i", 10, "Movimientos hacia diagonal abajo izquierda: %i", 10, "Movimientos hacia diagonal abajo derecha: %i", 10,0
+    msgMenuInicio db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Cargar partida", 10, "(3) Personalizar", 10, 0
+    msgErrorTeclaMenuInicio db "La opcion ingresada no es valida", 10,0
+
+    modoLectura db "rb", 0
+    modoEscritura db "wb", 0
+    filename db  "datos.dat",0; Archivo donde se guardan los datos de la partida
+
+    msgTest db "Hola estoy por aca ahora", 10, 0
+
     zorroComio db 0; 0 False, 1 True
-    posXZorro db 4
-    posYZorro db 5
+    posXZorro db 4; GUARDAR
+    posYZorro db 5; GUARDAR
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 0; TODO: RESTAURAR
-    turnoActual db "Z"
-    movimientoAtras db 'W'; Siempre en uppercase
+    ocasMatadas db 10; 1) TODO: RESTAURAR 2) GUARDAR 
+    turnoActual db "Z"; GUARDAR
+    movimientoAtras db 'W'; 1) Siempre en uppercase 2) GUARDAR
     formatoPos db "%i",0
-    cantMovArriba dd 0
-    cantMovAbajo dd 0
-    cantMovIzquierda dd 0
-    cantMovDerecha dd 0
-    cantMovArribaIzquierda dd 0
-    cantMovArribaDerecha dd 0
-    cantMovAbajoIzquierda dd 0
-    cantMovAbajoDerecha dd 0
+    cantMovArriba dd 0; GUARDAR
+    cantMovAbajo dd 0; GUARDAR
+    cantMovIzquierda dd 0; GUARDAR
+    cantMovDerecha dd 0; GUARDAR
+    cantMovArribaIzquierda dd 0; GUARDAR
+    cantMovArribaDerecha dd 0; GUARDAR
+    cantMovAbajoIzquierda dd 0; GUARDAR
+    cantMovAbajoDerecha dd 0; GUARDAR
     escrituraBinario db "wb",0
+
 section .bss
     posXOcaRaw resq 1
     posYOcaRaw resq 1
     movimientoTecla resb 1
-    idArchivo resq 1
+    fileHandler resq 1
+    
+
 section .text
+; Rutinas
+leerGuardado:
+    mov rdi, filename
+    mov rsi, modoLectura
+
+    sub rsp,8
+    call fopen
+    add rsp,8
+
+    cmp rax, 0
+    jle errorLectura
+
+    mov [fileHandler], rax
+leer:
+    ;Leo matriz
+    mov rdi, matriz
+    mov rsi, 98; (7*7=49) * 2(Dword) = 98
+    mov rdx, 1 ; !! No deberia ser rsi 2 (tamanio) y rdx 49 (cantidad)?
+    mov rcx, [fileHandler]
+    
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo posX del Zorro
+    mov rdi, posXZorro     
+    mov rsi, 1             
+    mov rdx, 1             
+    mov rcx, [fileHandler] 
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo posY del Zorro
+    mov rdi, posYZorro     ; Buffer para la posición en X del zorro
+    mov rsi, 1             ; Tamaño de cada elemento (1 byte)
+    mov rdx, 1             ; Número de elementos (1)
+    mov rcx, [fileHandler] ; Puntero al archivo
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    cmp rax,0
+    jle eof
+    
+    jmp leer
+eof:
+    mov rdi, [fileHandler]
+    sub rsp,8
+    call fclose
+    add rsp,8
+    
+    jmp finLectura
+errorLectura:
+    mov rdi, msgErrorLectura
+    sub rsp,8
+    call printf
+    add rsp,8
+    jmp finLectura
+finLectura:
+    ret
+
+crearGuardado:
+    mov rdi, filename
+    mov rsi, modoEscritura
+
+    sub rsp,8
+    call fopen
+    add rsp,8
+
+    cmp rax, 0
+    jle errorGuardado
+
+    mov [fileHandler], rax
+
+    ;Guardo la matriz
+    mov rdi, matriz
+    mov rsi, 98; (7*7=49) * 2(Dword) = 98
+    mov rdx, 1;  !! No deberia ser rsi 2 (tamanio) y rdx 49 (cantidad)?
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    cmp rax, 1
+    jne errorGuardado
+
+    ;Guardo la posX del zorro
+    mov rdi, posXZorro
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+    
+    ;Guardo la posY del zorro
+    mov rdi, posYZorro
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    cmp rax, 1
+    jne errorGuardado
+
+    ;Cierro archivo
+    mov rdi, [fileHandler]
+
+    sub rsp,8
+    call fclose
+    add rsp,8
+
+    jmp finGuardado
+errorGuardado:
+    mov rdi, msgErrorEscritura
+    sub rsp,8
+    call printf
+    add rsp,8
+    jmp finGuardado
+finGuardado:
+    ret
+
+menuInicio:
+    mov rdi, msgMenuInicio
+    sub rsp,8
+    call printf
+    add rsp,8
+    
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call gets
+    add rsp,8
+
+    cmp byte [movimientoTecla], '1'
+    je nuevaPartida
+
+    cmp byte [movimientoTecla], '2'
+    je cargarPartida
+
+    cmp byte [movimientoTecla], '3'
+    je personalizar
+
+    mov rdi,msgErrorTeclaMenuInicio
+    sub rsp,8
+    call printf
+    add rsp,8
+    jmp menuInicio
+
+nuevaPartida:
+    ; continua
+    ret
+cargarPartida:
+    sub rsp,8
+    call leerGuardado
+    add rsp,8
+    ret
+personalizar:
+    ; !! Falta implementar
+    ret
+
 main:
+    sub rsp,8
+    call menuInicio
+    add rsp,8
+
     mov rdi,matriz
     sub rsp,8
     call imprimirMatriz
     add rsp,8
+
+
 comenzarMovimiento:
     cmp byte[zorroComio], 0
     je noComio
@@ -163,6 +359,9 @@ moverse:
 
     jmp preguntarMovimiento
 salirTecla:
+    sub rsp,8
+    call crearGuardado
+    add rsp,8
     ret
 terminarMovimiento:
     sub rdi,rdi
