@@ -10,6 +10,7 @@ extern estaOcaEncerrada
 extern estaZorroEncerrado
 extern obtenerElemento
 extern moverSobreOca
+extern fread
 section .data
     matriz dw "-","-","O","O","O","-","-"
            dw "-","-","O","O","O","-","-"
@@ -43,7 +44,7 @@ section .data
     posYZorro db 5
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 11; TODO: RESTAURAR
+    ocasMatadas db 0; TODO: RESTAURAR
     turnoActual db "Z"
     movimientoAtras db 'W'; Siempre en uppercase
     formatoPos db "%i",0
@@ -55,10 +56,12 @@ section .data
     cantMovArribaDerecha dd 0
     cantMovAbajoIzquierda dd 0
     cantMovAbajoDerecha dd 0
+    escrituraBinario db "wb",0
 section .bss
     posXOcaRaw resq 1
     posYOcaRaw resq 1
     movimientoTecla resb 1
+    idArchivo resq 1
 section .text
 main:
     mov rdi,matriz
@@ -187,6 +190,8 @@ terminarMovimiento:
 
     mov byte[turnoActual], 'Z'
     jmp comenzarMovimiento
+guardarPartida:
+; Completar!
 mostrarEstadisticasZorro:
     mov rdi, msgEstadisticasZorro
     mov rsi, [cantMovArriba]
