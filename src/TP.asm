@@ -12,14 +12,14 @@ extern obtenerElemento
 extern moverSobreOca
 section .data
     matriz dw "-","-","O","O","O","-","-"
-           dw "-","-","O"," ","O","-","-"
+           dw "-","-","O","O","O","-","-"
            dw "O","O","O","O","O","O","O"
            dw "O"," "," "," "," "," ","O"
-           dw "O"," ","O","X"," "," ","O"
+           dw "O"," "," ","X"," "," ","O"
            dw "-","-"," "," "," ","-","-"
            dw "-","-"," "," "," ","-","-"
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
-    ;     msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
+    ;msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgSeleccion db "Seleccion: ",0
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
@@ -37,15 +37,24 @@ section .data
     msgGanadorZorro db "JUEGO FINALIZADO: Gana el zorro por matar a 12 ocas",10,0
     msgGanadorOca db "JUEGO FINALIZADO: Ganan las ocas por encerrar al zorro",10,0
     msgTurnoZorroKill db "El zorro se comio una oca, vuelve a jugar", 10,0
+    msgEstadisticasZorro db "ESTADISTICAS DEL ZORRO", 10, "Movimientos hacia arriba: %i", 10, "Movimientos hacia abajo: %i", 10, "Movimientos hacia la izquierda: %i", 10, "Movimientos hacia la derecha: %i", 10, "Movimientos hacia diagonal arriba izquierda: %i", 10, "Movimientos hacia diagonal arriba derecha: %i", 10, "Movimientos hacia diagonal abajo izquierda: %i", 10, "Movimientos hacia diagonal abajo derecha: %i", 10,0
     zorroComio db 0; 0 False, 1 True
     posXZorro db 4
     posYZorro db 5
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 0
+    ocasMatadas db 11; TODO: RESTAURAR
     turnoActual db "Z"
     movimientoAtras db 'W'; Siempre en uppercase
     formatoPos db "%i",0
+    cantMovArriba dd 0
+    cantMovAbajo dd 0
+    cantMovIzquierda dd 0
+    cantMovDerecha dd 0
+    cantMovArribaIzquierda dd 0
+    cantMovArribaDerecha dd 0
+    cantMovAbajoIzquierda dd 0
+    cantMovAbajoDerecha dd 0
 section .bss
     posXOcaRaw resq 1
     posYOcaRaw resq 1
@@ -178,17 +187,51 @@ terminarMovimiento:
 
     mov byte[turnoActual], 'Z'
     jmp comenzarMovimiento
+mostrarEstadisticasZorro:
+    mov rdi, msgEstadisticasZorro
+    mov rsi, [cantMovArriba]
+    mov rdx, [cantMovAbajo]
+    mov rcx, [cantMovIzquierda]
+    mov r8, [cantMovDerecha]
+    mov r9, [cantMovArribaIzquierda]
+
+    ; Solo dios sabe lo que sucede aca
+    sub rsp,24
+    mov rax, 0
+    mov rax, qword [cantMovArribaDerecha]
+    mov [rsp], rax
+    mov rax, qword [cantMovAbajoIzquierda]
+    mov [rsp+8], rax
+    mov rax, qword [cantMovAbajoDerecha]
+    mov [rsp+16], rax
+
+    call printf
+    add rsp,24
+
+    add rsp, 16
+
+    ret
 ganadorZorro:
     mov rdi,msgGanadorZorro
     sub rsp,8
     call printf
     add rsp,8
+
+    sub rsp,8
+    call mostrarEstadisticasZorro
+    add rsp,8
+
     ret
 ganadorOca:
     mov rdi,msgGanadorOca
     sub rsp,8
     call printf
     add rsp,8
+
+    sub rsp,8
+    call mostrarEstadisticasZorro
+    add rsp,8
+
     ret
 teclaPosicionInvalidaOca:
     mov rdi,msgErrorPosicionOca
@@ -409,6 +452,8 @@ moverseArriba:
 
     dec r8
 
+    inc byte[cantMovArriba]
+
     cmp rax,0
     je actualizarZorro
 
@@ -457,6 +502,8 @@ moverseAbajo:
     mov r9, "X"
 
     inc r8
+
+    inc byte[cantMovAbajo]
 
     cmp rax,0
     je actualizarZorro
@@ -508,6 +555,8 @@ moverseIzquierda:
 
     dec rcx
 
+    inc byte[cantMovIzquierda]
+
     cmp rax,0
     je actualizarZorro
 
@@ -556,6 +605,8 @@ moverseDerecha:
     mov r9, "X"
 
     inc rcx
+
+    inc byte[cantMovDerecha]
 
     cmp rax,0
     je actualizarZorro
@@ -614,6 +665,8 @@ moverseArribaIzquierda:
     dec rcx
     dec r8
 
+    inc byte[cantMovArribaIzquierda]
+
     cmp rax,0
     je actualizarZorro
 
@@ -670,6 +723,8 @@ moverseArribaDerecha:
 
     inc rcx
     dec r8
+
+    inc byte[cantMovArribaDerecha]
 
     cmp rax,0
     je actualizarZorro
@@ -728,6 +783,8 @@ moverseAbajoIzquierda:
     dec rcx
     inc r8
 
+    inc byte[cantMovAbajoIzquierda]
+
     cmp rax,0
     je actualizarZorro
 
@@ -784,6 +841,8 @@ moverseAbajoDerecha:
 
     inc rcx
     inc r8
+
+    inc byte[cantMovAbajoDerecha]
 
     cmp rax,0
     je actualizarZorro
