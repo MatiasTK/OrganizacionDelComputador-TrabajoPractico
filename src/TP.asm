@@ -120,15 +120,129 @@ leer:
     add rsp,8
 
     ;Leo posY del Zorro
-    mov rdi, posYZorro     ; Buffer para la posición en X del zorro
-    mov rsi, 1             ; Tamaño de cada elemento (1 byte)
-    mov rdx, 1             ; Número de elementos (1)
-    mov rcx, [fileHandler] ; Puntero al archivo
+    mov rdi, posYZorro    
+    mov rsi, 1             
+    mov rdx, 1             
+    mov rcx, [fileHandler] 
 
     sub rsp,8
     call fread
     add rsp,8
 
+    ;Leo posY del Zorro
+    mov rdi, posYZorro     
+    mov rsi, 1            
+    mov rdx, 1            
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+    
+
+    ;Leo ocas comidas
+    mov rdi, ocasMatadas
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo turno actual
+    mov rdi, turnoActual
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo movimiento hacia atras, que es hacia donde las ocas no pueden ir
+    mov rdi, movimientoAtras
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo estadisticas
+    mov rdi, cantMovArriba
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovAbajo
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovDerecha
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovArribaIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovArribaDerecha
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovAbajoIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    mov rdi, cantMovAbajoDerecha
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+    
     cmp rax,0
     jle eof
     
@@ -187,6 +301,109 @@ crearGuardado:
     
     ;Guardo la posY del zorro
     mov rdi, posYZorro
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo cantidad de ocas comidas
+    mov rdi, ocasMatadas
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo el turno
+    mov rdi, turnoActual
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo la orientacion "hacia atras" a la que no pueden moverse las ocas
+    mov rdi, movimientoAtras
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo estadisticas de movimiento
+    mov rdi, cantMovArriba
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    mov rdi, cantMovAbajo
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    mov rdi, cantMovIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    mov rdi, cantMovDerecha
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+    
+    mov rdi, cantMovArribaIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+    
+    mov rdi, cantMovArribaDerecha
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    mov rdi, cantMovAbajoIzquierda
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    mov rdi, cantMovAbajoDerecha
     mov rsi, 1
     mov rdx, 1
     mov rcx, [fileHandler]
