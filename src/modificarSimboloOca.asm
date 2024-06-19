@@ -29,7 +29,7 @@ reemplazarElementos:
 
     cmp al, "O"
     je cambiarSimbolo
-
+avanzarFila:
     cmp byte[posX], 7
     je avanzarColumna
 
@@ -45,7 +45,7 @@ cambiarSimbolo:
     call modificarElemento
     add rsp,8
 
-    jmp reemplazarElementos
+    jmp avanzarFila
 avanzarColumna:
     cmp byte[posY], 7
     je terminar
