@@ -18,6 +18,7 @@ extern fclose
 extern strcpy
 extern modificarElemento
 extern modificarSimboloOca
+extern system
 section .data
     format db "%s",0
 
@@ -75,6 +76,7 @@ section .data
     msgTurnoOca db "TURNO DE LA OCA en la posicion X:%i Y:%i",10,0
     msgErrorTecla db "ERROR: La tecla ingresada no es valida",10,0
     msgErrorOca db "ERROR: No se puede comer a la oca",10,0
+    msgErrorSimbolo db "ERROR: El ingreso no era un caracter", 10,0
     msgErrorPosOca db "ERROR: No hay ninguna oca en la posicion elegida",10,0
     msgErrorMovOca db "ERROR: La oca no se puede mover a esa posicion porque esta ocupada",10,0
     msgErrorOcaEncerrada db "ERROR: La oca esta encerrada y no se puede mover, selecciona otra oca",10,0
@@ -93,6 +95,7 @@ section .data
     msgErrorTeclaMenuInicio db "La opcion ingresada no es valida", 10,0
     simboloZorro db "X"
     simboloOca db "O"
+    clear db "clear",0
 
     modoLectura db "rb", 0
     modoEscritura db "wb", 0
@@ -131,6 +134,8 @@ borrarGuardado:
     sub rsp,8
     call remove
     add rsp,8
+
+    ret
 leerGuardado:
     mov rdi, filename
     mov rsi, modoLectura
@@ -507,6 +512,11 @@ finGuardado:
     ret
 
 menuInicio:
+    mov rdi, clear
+    sub rsp, 8
+    call system
+    add rsp, 8
+
     ;Compruebo si hay partida guardada, para decidir si mostrarlo en el menu
     mov rdi, filename
     mov rsi, modoLectura
@@ -580,6 +590,11 @@ cargarPartida:
     add rsp,8
     ret
 personalizar:
+    mov rdi, clear
+    sub rsp, 8
+    call system
+    add rsp, 8
+
     mov rdi, msgMenuRotar
     sub rsp,8
     call printf
@@ -684,6 +699,7 @@ rotarMatriz:
     call imprimirMatriz
     add rsp,8
 
+rotarMatrizCiclo:
     mov rdi, msgMenuRotarDireccion
     sub rsp,8
     call printf
@@ -708,6 +724,13 @@ rotarMatriz:
 
     cmp byte [movimientoTecla], '5'
     je personalizar
+
+    mov rdi,msgErrorTeclaMenuInicio
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    jmp rotarMatrizCiclo
 cambiarSimboloZorro:
     mov rdi, msgSimboloZorro
     mov rsi, [simboloZorro]
@@ -720,9 +743,24 @@ cambiarSimboloZorro:
     call gets
     add rsp,8
 
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call strLen
+    add rsp,8
+
+    cmp rax, 1
+    jne simboloInvalidoZorro
+
     mov al, byte[movimientoTecla]
     mov byte[simboloZorro], al
     jmp personalizar
+simboloInvalidoZorro:
+    mov rdi, msgErrorSimbolo
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    jmp cambiarSimboloZorro
 cambiarSimboloOca:
     mov rdi, msgSimboloOca
     mov rsi, [simboloOca]
@@ -735,9 +773,24 @@ cambiarSimboloOca:
     call gets
     add rsp,8
 
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call strLen
+    add rsp,8
+
+    cmp rax, 1
+    jne simboloInvalidoOca
+
     mov al, byte[movimientoTecla]
     mov byte[simboloOca], al
     jmp personalizar
+simboloInvalidoOca:
+    mov rdi, msgErrorSimbolo
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    jmp cambiarSimboloOca
 main:
     sub rsp,8
     call menuInicio
