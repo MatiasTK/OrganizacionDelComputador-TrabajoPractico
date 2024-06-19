@@ -15,22 +15,58 @@ extern fwrite
 extern fopen
 extern remove
 extern fclose
-
-
+extern strcpy
+extern modificarElemento
+extern modificarSimboloOca
 section .data
     format db "%s",0
 
-    registro times 0 db ""
-    matriz  dw "-","-","O","O","O","-","-" ; GUARDAR
+    matriz  dw "-","-","O","O","O","-","-"
             dw "-","-","O","O","O","-","-"
             dw "O","O","O","O","O","O","O"
             dw "O"," "," "," "," "," ","O"
             dw "O"," "," ","X"," "," ","O"
             dw "-","-"," "," "," ","-","-"
             dw "-","-"," "," "," ","-","-"
+    matrizArriba  dw "-","-","O","O","O","-","-"
+                  dw "-","-","O","O","O","-","-"
+                  dw "O","O","O","O","O","O","O"
+                  dw "O"," "," "," "," "," ","O"
+                  dw "O"," "," ","X"," "," ","O"
+                  dw "-","-"," "," "," ","-","-"
+                  dw "-","-"," "," "," ","-","-"
+
+    matrizDerecha dw "-","-","O","O","O","-","-"
+                  dw "-","-"," "," ","O","-","-"
+                  dw " "," "," "," ","O","O","O"
+                  dw " "," ","X"," ","O","O","O"
+                  dw " "," "," "," ","O","O","O"
+                  dw "-","-"," "," ","O","-","-"
+                  dw "-","-","O","O","O","-","-"
+
+    matrizIzquierda dw "-","-","O","O","O","-","-"
+                    dw "-","-","O"," "," ","-","-"
+                    dw "O","O","O"," "," "," "," "
+                    dw "O","O","O"," ","X"," "," "
+                    dw "O","O","O"," "," "," "," "
+                    dw "-","-","O"," "," ","-","-"
+                    dw "-","-","O","O","O","-","-"
+
+    matrizAbajo dw "-","-"," "," "," ","-","-"
+                dw "-","-"," "," "," ","-","-"
+                dw "O"," "," ","X"," "," ","O"
+                dw "O"," "," "," "," "," ","O"
+                dw "O","O","O","O","O","O","O"
+                dw "-","-","O","O","O","-","-"
+                dw "-","-","O","O","O","-","-"
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
-    ;msgMovimientoAyudaOca db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaArriba db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaDerecha db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaIzquierda db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
+    msgSimboloZorro db "Simbolo actual del zorro: %c",10,"Seleccione un nuevo simbolo: ",0
+    msgSimboloOca db "Simbolo actual de la oca: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSeleccion db "Seleccion: ",0
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
     msgTurnoOcaRaw db "TURNO DE LA OCA",10,0
@@ -50,14 +86,16 @@ section .data
     msgGanadorOca db "JUEGO FINALIZADO: Ganan las ocas por encerrar al zorro",10,0
     msgTurnoZorroKill db "El zorro se comio una oca, vuelve a jugar", 10,0
     msgEstadisticasZorro db "ESTADISTICAS DEL ZORRO", 10, "Movimientos hacia arriba: %i", 10, "Movimientos hacia abajo: %i", 10, "Movimientos hacia la izquierda: %i", 10, "Movimientos hacia la derecha: %i", 10, "Movimientos hacia diagonal arriba izquierda: %i", 10, "Movimientos hacia diagonal arriba derecha: %i", 10, "Movimientos hacia diagonal abajo izquierda: %i", 10, "Movimientos hacia diagonal abajo derecha: %i", 10,0
-    msgMenuInicio db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Cargar partida", 10, "(3) Personalizar", 10, 0
+    msgMenuInicio db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Cargar partida", 10, "(3) Personalizar", 10, "Eleccion:", 0
+    msgMenuRotar db "Seleccione una opcion:", 10, "(1) Rotar matriz",10,"(2) Cambiar simbolo zorro",10, "(3) Cambiar simbolo oca",10, "(4) Volver", 10, "Eleccion:",0
+    msgMenuRotarDireccion db "Seleccione una opcion:",10,"(1) Rotar a la derecha",10,"(2) Rotar a la izquierda",10,"(3) Rotar a arriba",10, "(4) Rotar a abajo",10,"(5) Volver", 10, "Eleccion:",0
     msgErrorTeclaMenuInicio db "La opcion ingresada no es valida", 10,0
+    simboloZorro db "X"
+    simboloOca db "O"
 
     modoLectura db "rb", 0
     modoEscritura db "wb", 0
     filename db  "datos.dat",0; Archivo donde se guardan los datos de la partida
-
-    msgTest db "Hola estoy por aca ahora", 10, 0
 
     zorroComio db 0; 0 False, 1 True
     posXZorro db 4; GUARDAR
@@ -462,14 +500,184 @@ cargarPartida:
     add rsp,8
     ret
 personalizar:
-    ; !! Falta implementar
-    ret
+    mov rdi, msgMenuRotar
+    sub rsp,8
+    call printf
+    add rsp,8
 
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call gets
+    add rsp,8
+
+    cmp byte [movimientoTecla], '1'
+    je rotarMatriz
+
+    cmp byte [movimientoTecla], '2'
+    je cambiarSimboloZorro
+
+    cmp byte [movimientoTecla], '3'
+    je cambiarSimboloOca
+
+    cmp byte [movimientoTecla], '4'
+    je menuInicio
+
+    mov rdi,msgErrorTeclaMenuInicio
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    jmp personalizar
+rotarDerecha:
+    mov rcx, 98;
+    lea rsi, [matrizDerecha]
+    lea rdi, [matriz]
+    rep movsb
+
+
+    mov byte[movimientoAtras], 'D'
+    mov byte[posXZorro], 3
+    mov byte[posYZorro], 4
+
+    lea rdi, [msgMovimientoAyudaOca]
+    lea rsi, [msgMovimientoAyudaOcaDerecha]
+    sub rsp,8
+    call strcpy
+    add rsp,8
+
+    jmp rotarMatriz
+rotarIzquierda:
+    mov rcx, 98;
+    lea rsi, [matrizIzquierda]
+    lea rdi, [matriz]
+    rep movsb
+
+    mov byte[movimientoAtras], 'A'
+    mov byte[posXZorro], 5
+    mov byte[posYZorro], 4
+
+    lea rdi, [msgMovimientoAyudaOca]
+    lea rsi, [msgMovimientoAyudaOcaIzquierda]
+    sub rsp,8
+    call strcpy
+    add rsp,8
+
+    jmp rotarMatriz
+rotarArrriba:
+    mov rcx, 98;
+    lea rsi, [matrizArriba]
+    lea rdi, [matriz]
+    rep movsb
+
+    mov byte[movimientoAtras], 'W'
+    mov byte[posXZorro], 4
+    mov byte[posYZorro], 5
+
+    lea rdi, [msgMovimientoAyudaOca]
+    lea rsi, [msgMovimientoAyudaOcaArriba]
+    sub rsp,8
+    call strcpy
+    add rsp,8
+
+    jmp rotarMatriz
+rotarAbajo:
+    mov rcx, 98;
+    lea rsi, [matrizAbajo]
+    lea rdi, [matriz]
+    rep movsb
+
+    mov byte[movimientoAtras], 'S'
+    mov byte[posXZorro], 4
+    mov byte[posYZorro], 3
+
+    lea rdi, [msgMovimientoAyudaOca]
+    lea rsi, [msgMovimientoAyudaOcaAbajo]
+    sub rsp,8
+    call strcpy
+    add rsp,8
+
+    jmp rotarMatriz
+rotarMatriz:
+    sub rdi,rdi
+    mov rdi, matriz
+    sub rsp,8
+    call imprimirMatriz
+    add rsp,8
+
+    mov rdi, msgMenuRotarDireccion
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call gets
+    add rsp,8
+
+    cmp byte [movimientoTecla], '1'
+    je rotarDerecha
+
+    cmp byte [movimientoTecla], '2'
+    je rotarIzquierda
+
+    cmp byte [movimientoTecla], '3'
+    je rotarArrriba
+
+    cmp byte [movimientoTecla], '4'
+    je rotarAbajo
+
+    cmp byte [movimientoTecla], '5'
+    je personalizar
+cambiarSimboloZorro:
+    mov rdi, msgSimboloZorro
+    mov rsi, [simboloZorro]
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call gets
+    add rsp,8
+
+    mov al, byte[movimientoTecla]
+    mov byte[simboloZorro], al
+    jmp personalizar
+cambiarSimboloOca:
+    mov rdi, msgSimboloOca
+    mov rsi, [simboloOca]
+    sub rsp,8
+    call printf
+    add rsp,8
+
+    mov rdi, movimientoTecla
+    sub rsp,8
+    call gets
+    add rsp,8
+
+    mov al, byte[movimientoTecla]
+    mov byte[simboloOca], al
+    jmp personalizar
 main:
     sub rsp,8
     call menuInicio
     add rsp,8
 
+cambiarSimbolos:
+    mov rdi, matriz
+    mov rsi, [posXZorro]
+    mov rdx, [posYZorro]
+    mov rcx, [simboloZorro]
+    sub rsp,8
+    call modificarElemento
+    add rsp,8
+
+    mov rdi, matriz
+    mov rsi, [simboloOca]
+    sub rsp,8
+    call modificarSimboloOca
+    add rsp,8
+empezarJuego:
     mov rdi,matriz
     sub rsp,8
     call imprimirMatriz
@@ -739,7 +947,7 @@ cambiarTurnoOca:
     call obtenerElemento
     add rsp,8
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     jne ocaElegidaInvalida
 
     lea rdi, matriz
@@ -853,6 +1061,7 @@ moverseArriba:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
     dec rdx
     dec r8
     dec r8
@@ -872,7 +1081,7 @@ moverseArriba:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     dec r8
 
@@ -904,6 +1113,7 @@ moverseAbajo:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
     inc rdx
     inc r8
     inc r8
@@ -923,7 +1133,7 @@ moverseAbajo:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     inc r8
 
@@ -956,6 +1166,7 @@ moverseIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
     dec rsi
     dec rcx
     dec rcx
@@ -975,7 +1186,7 @@ moverseIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     dec rcx
 
@@ -1007,6 +1218,7 @@ moverseDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
     inc rsi
     inc rcx
     inc rcx
@@ -1026,7 +1238,7 @@ moverseDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     inc rcx
 
@@ -1059,6 +1271,7 @@ moverseArribaIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
 
     dec rsi
     dec rdx
@@ -1084,7 +1297,7 @@ moverseArribaIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     dec rcx
     dec r8
@@ -1119,6 +1332,7 @@ moverseArribaDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
 
     inc rsi
     dec rdx
@@ -1143,7 +1357,7 @@ moverseArribaDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     inc rcx
     dec r8
@@ -1178,6 +1392,7 @@ moverseAbajoIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
 
     dec rsi
     inc rdx
@@ -1202,7 +1417,7 @@ moverseAbajoIzquierda:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     dec rcx
     inc r8
@@ -1237,6 +1452,7 @@ moverseAbajoDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
+    mov r9, [simboloOca]
 
     inc rsi
     inc rdx
@@ -1261,7 +1477,7 @@ moverseAbajoDerecha:
     mov rdx, [posYZorro]
     mov rcx, [posXZorro]
     mov r8, [posYZorro]
-    mov r9, "X"
+    mov r9, [simboloZorro]
 
     inc rcx
     inc r8
@@ -1397,7 +1613,7 @@ moverseArribaOca:
     mov rdx, [posYOca]
     mov rcx, [posXOca]
     mov r8, [posYOca]
-    mov r9, "O"
+    mov r9, [simboloOca]
 
     dec r8
 
@@ -1438,7 +1654,7 @@ moverseAbajoOca:
     mov rdx, [posYOca]
     mov rcx, [posXOca]
     mov r8, [posYOca]
-    mov r9, "O"
+    mov r9, [simboloOca]
 
     inc r8
 
@@ -1479,7 +1695,7 @@ moverseIzquierdaOca:
     mov rdx, [posYOca]
     mov rcx, [posXOca]
     mov r8, [posYOca]
-    mov r9, "O"
+    mov r9, [simboloOca]
 
     dec rcx
 
@@ -1520,7 +1736,7 @@ moverseDerechaOca:
     mov rdx, [posYOca]
     mov rcx, [posXOca]
     mov r8, [posYOca]
-    mov r9, "O"
+    mov r9, [simboloOca]
 
     inc rcx
 
