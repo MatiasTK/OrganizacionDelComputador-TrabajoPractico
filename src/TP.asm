@@ -63,7 +63,7 @@ section .data
     posYZorro db 5; GUARDAR
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 10; 1) TODO: RESTAURAR 2) GUARDAR 
+    ocasMatadas db 11; 1) TODO: RESTAURAR 2) GUARDAR 
     turnoActual db "Z"; GUARDAR
     movimientoAtras db 'W'; 1) Siempre en uppercase 2) GUARDAR
     formatoPos db "%i",0
@@ -128,17 +128,6 @@ leer:
     sub rsp,8
     call fread
     add rsp,8
-
-    ;Leo posY del Zorro
-    mov rdi, posYZorro     
-    mov rsi, 1            
-    mov rdx, 1            
-    mov rcx, [fileHandler]
-
-    sub rsp,8
-    call fread
-    add rsp,8
-    
 
     ;Leo ocas comidas
     mov rdi, ocasMatadas
@@ -606,8 +595,7 @@ terminarMovimiento:
 
     mov byte[turnoActual], 'Z'
     jmp comenzarMovimiento
-guardarPartida:
-; Completar!
+
 mostrarEstadisticasZorro:
     mov rdi, msgEstadisticasZorro
     mov rsi, [cantMovArriba]
