@@ -466,15 +466,20 @@ finGuardado:
     ret
 
 menuInicio:
-    mov rdi, msgMenuInicio
-    sub rsp,8
-    call printf
-    add rsp,8
+    ;Compruebo si hay partida guardada, para decidir si mostrarlo en el menu
+    mov rdi, filename
+    mov rsi, modoLectura
 
-    mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    sub rsp, 8
+    call fopen
+    add rsp, 8
+    mov [fileHandler], rax
+
+    ; Comprobar si la llamada a fopen falló
+    cmp rax, 0
+    je menuInicioSinGuardado
+
+    ;Hay partida guardada
 
     cmp byte [movimientoTecla], '1'
     je nuevaPartida
