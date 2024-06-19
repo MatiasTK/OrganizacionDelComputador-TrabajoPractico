@@ -13,6 +13,7 @@ extern moverSobreOca
 extern fread
 extern fwrite
 extern fopen
+extern remove
 extern fclose
 
 
@@ -86,6 +87,11 @@ section .bss
 
 section .text
 ; Rutinas
+borrarGuardado:
+    mov rdi, filename
+    sub rsp,8
+    call remove
+    add rsp,8
 leerGuardado:
     mov rdi, filename
     mov rsi, modoLectura
@@ -469,7 +475,8 @@ main:
     call imprimirMatriz
     add rsp,8
 
-
+    cmp byte[turnoActual], 'Z'
+    jne comenzarMovimientoOca
 comenzarMovimiento:
     cmp byte[zorroComio], 0
     je noComio
@@ -627,6 +634,10 @@ ganadorZorro:
     add rsp,8
 
     sub rsp,8
+    call borrarGuardado
+    add rsp,8
+
+    sub rsp,8
     call mostrarEstadisticasZorro
     add rsp,8
 
@@ -635,6 +646,10 @@ ganadorOca:
     mov rdi,msgGanadorOca
     sub rsp,8
     call printf
+    add rsp,8
+
+    sub rsp,8
+    call borrarGuardado
     add rsp,8
 
     sub rsp,8
