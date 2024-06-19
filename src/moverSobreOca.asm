@@ -5,6 +5,7 @@ extern obtenerElemento
 extern validarLimites
 section .bss
     matrizDir resq 1
+    simboloOca resq 1
     posX resq 1
     posY resq 1
     posXKill resq 1
@@ -15,6 +16,7 @@ section .text
 ; RDI: Matriz
 ; RSI,RDX = X,Y actual
 ; RCX, R8: X,Y KILL
+; R9: Simbolo OCA
 ; RAX -> -1 Si hay oca y no pudo matarla, 0 si no hay oca, 1 si hay oca y pudo matarla
 moverSobreOca:
     mov [matrizDir], rdi
@@ -22,6 +24,7 @@ moverSobreOca:
     mov [posY], rdx
     mov [posXKill], rcx
     mov [posYKill], r8
+    mov [simboloOca], r9
     mov rax,0
 
     mov rdi, [matrizDir]
@@ -32,7 +35,7 @@ moverSobreOca:
     call obtenerElemento
     add rsp,8
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     je verificarSiSePuedeMatarOca
 
     sub rax,rax
@@ -56,7 +59,7 @@ verificarSiSePuedeMatarOca:
     call obtenerElemento
     add rsp, 8
 
-    cmp al, 'O'
+    cmp al, [simboloOca]
     je noSePudoMatar
 matarOca:
     mov bx, [posY]
