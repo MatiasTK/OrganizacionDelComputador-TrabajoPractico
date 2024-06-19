@@ -63,7 +63,7 @@ section .data
     posYZorro db 5; GUARDAR
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 11; 1) TODO: RESTAURAR 2) GUARDAR 
+    ocasMatadas db 11; 1) TODO: RESTAURAR 2) GUARDAR
     turnoActual db "Z"; GUARDAR
     movimientoAtras db 'W'; 1) Siempre en uppercase 2) GUARDAR
     formatoPos db "%i",0
@@ -82,7 +82,7 @@ section .bss
     posYOcaRaw resq 1
     movimientoTecla resb 1
     fileHandler resq 1
-    
+
 
 section .text
 ; Rutinas
@@ -104,26 +104,26 @@ leer:
     mov rsi, 98; (7*7=49) * 2(Dword) = 98
     mov rdx, 1 ; !! No deberia ser rsi 2 (tamanio) y rdx 49 (cantidad)?
     mov rcx, [fileHandler]
-    
+
     sub rsp,8
     call fread
     add rsp,8
 
     ;Leo posX del Zorro
-    mov rdi, posXZorro     
-    mov rsi, 1             
-    mov rdx, 1             
-    mov rcx, [fileHandler] 
+    mov rdi, posXZorro
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
 
     sub rsp,8
     call fread
     add rsp,8
 
     ;Leo posY del Zorro
-    mov rdi, posYZorro    
-    mov rsi, 1             
-    mov rdx, 1             
-    mov rcx, [fileHandler] 
+    mov rdi, posYZorro
+    mov rsi, 1
+    mov rdx, 1
+    mov rcx, [fileHandler]
 
     sub rsp,8
     call fread
@@ -131,7 +131,7 @@ leer:
 
     ;Leo ocas comidas
     mov rdi, ocasMatadas
-    mov rsi, 2
+    mov rsi, 1
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -141,7 +141,7 @@ leer:
 
     ;Leo turno actual
     mov rdi, turnoActual
-    mov rsi, 2
+    mov rsi, 1
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -151,7 +151,7 @@ leer:
 
     ;Leo movimiento hacia atras, que es hacia donde las ocas no pueden ir
     mov rdi, movimientoAtras
-    mov rsi, 2
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -161,7 +161,7 @@ leer:
 
     ;Leo estadisticas
     mov rdi, cantMovArriba
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -170,7 +170,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovAbajo
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -179,7 +179,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -188,7 +188,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -197,7 +197,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovArribaIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -206,7 +206,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovArribaDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -215,7 +215,7 @@ leer:
     add rsp,8
 
     mov rdi, cantMovAbajoIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -224,24 +224,24 @@ leer:
     add rsp,8
 
     mov rdi, cantMovAbajoDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
     sub rsp,8
     call fread
     add rsp,8
-    
+
     cmp rax,0
     jle eof
-    
+
     jmp leer
 eof:
     mov rdi, [fileHandler]
     sub rsp,8
     call fclose
     add rsp,8
-    
+
     jmp finLectura
 errorLectura:
     mov rdi, msgErrorLectura
@@ -287,7 +287,7 @@ crearGuardado:
     sub rsp,8
     call fwrite
     add rsp,8
-    
+
     ;Guardo la posY del zorro
     mov rdi, posYZorro
     mov rsi, 1
@@ -300,7 +300,7 @@ crearGuardado:
 
     ;Guardo cantidad de ocas comidas
     mov rdi, ocasMatadas
-    mov rsi, 2
+    mov rsi, 1
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -320,7 +320,7 @@ crearGuardado:
 
     ;Guardo la orientacion "hacia atras" a la que no pueden moverse las ocas
     mov rdi, movimientoAtras
-    mov rsi, 2
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -330,7 +330,7 @@ crearGuardado:
 
     ;Guardo estadisticas de movimiento
     mov rdi, cantMovArriba
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -339,7 +339,7 @@ crearGuardado:
     add rsp,8
 
     mov rdi, cantMovAbajo
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -348,7 +348,7 @@ crearGuardado:
     add rsp,8
 
     mov rdi, cantMovIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -357,25 +357,25 @@ crearGuardado:
     add rsp,8
 
     mov rdi, cantMovDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
     sub rsp,8
     call fwrite
     add rsp,8
-    
+
     mov rdi, cantMovArribaIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
     sub rsp,8
     call fwrite
     add rsp,8
-    
+
     mov rdi, cantMovArribaDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -384,7 +384,7 @@ crearGuardado:
     add rsp,8
 
     mov rdi, cantMovAbajoIzquierda
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -393,7 +393,7 @@ crearGuardado:
     add rsp,8
 
     mov rdi, cantMovAbajoDerecha
-    mov rsi, 1
+    mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -426,7 +426,7 @@ menuInicio:
     sub rsp,8
     call printf
     add rsp,8
-    
+
     mov rdi, movimientoTecla
     sub rsp,8
     call gets
