@@ -205,8 +205,8 @@ leer:
     add rsp,8
 
     ;Leo Simbolo Zorro
-    mov rdi, cambiarSimboloZorro
-    mov rsi, 4
+    mov rdi, simboloZorro
+    mov rsi, 2
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -215,8 +215,8 @@ leer:
     add rsp,8
 
     ;Leo Simbolo Oca
-    mov rdi, cambiarSimboloOca
-    mov rsi, 4
+    mov rdi, simboloOca
+    mov rsi, 2
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -394,7 +394,7 @@ crearGuardado:
     add rsp,8
 
     ;Guardo Simbolo Zorro
-    mov rdi, cambiarSimboloZorro
+    mov rdi, simboloZorro
     mov rsi, 2
     mov rdx, 1
     mov rcx, [fileHandler]
@@ -404,7 +404,7 @@ crearGuardado:
     add rsp,8
 
     ;Guardo Simbolo Oca
-    mov rdi, cambiarSimboloOca
+    mov rdi, simboloOca
     mov rsi, 2
     mov rdx, 1
     mov rcx, [fileHandler]
