@@ -39,7 +39,7 @@ borrarPosicionActual:
     add [desplazamiento], bx
 
     mov ebx, [desplazamiento]
-    movzx ecx, bl; Porque? Nadie lo sabe. pero sin esta linea no funciona nada.
+    movzx ecx, bl
     sub eax,eax
     mov rax, [matrizDir]
     add rax, rcx
@@ -58,7 +58,7 @@ agregarPosicionNueva:
     add [desplazamiento], bx
 
     mov ebx, [desplazamiento]
-    movzx ecx, bl; Porque? Nadie lo sabe. pero sin esta linea no funciona nada.
+    movzx ecx, bl
     sub eax,eax
     mov rax, [matrizDir]
     add rax, rcx

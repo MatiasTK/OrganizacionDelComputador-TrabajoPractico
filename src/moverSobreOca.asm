@@ -11,7 +11,6 @@ section .bss
     posXKill resq 1
     posYKill resq 1
     desplazamiento resw 1
-
 section .text
 ; RDI: Matriz
 ; RSI,RDX = X,Y actual

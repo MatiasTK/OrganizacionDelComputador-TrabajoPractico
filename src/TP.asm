@@ -64,8 +64,8 @@ section .data
     msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOcaArriba db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOcaDerecha db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaIzquierda db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaIzquierda db "Teclas:",10,"      ↑ (W)",10,"      ↓ (S) → (D)",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A)       → (D)",10,"SALIR (X)",10,0
     msgSimboloZorro db "Simbolo actual del zorro: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSimboloOca db "Simbolo actual de la oca: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSeleccion db "Seleccion: ",0
@@ -99,25 +99,25 @@ section .data
 
     modoLectura db "rb", 0
     modoEscritura db "wb", 0
-    filename db  "datos.dat",0; Archivo donde se guardan los datos de la partida
+    filename db  "datos.dat",0
 
     zorroComio db 0; 0 False, 1 True
-    posXZorro db 4; GUARDAR
-    posYZorro db 5; GUARDAR
+    posXZorro db 4
+    posYZorro db 5
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 11; 1) TODO: RESTAURAR 2) GUARDAR
-    turnoActual db "Z"; GUARDAR
-    movimientoAtras db 'W'; 1) Siempre en uppercase 2) GUARDAR
+    ocasMatadas db 0
+    turnoActual db "Z"
+    movimientoAtras db 'W'
     formatoPos db "%i",0
-    cantMovArriba dd 0; GUARDAR
-    cantMovAbajo dd 0; GUARDAR
-    cantMovIzquierda dd 0; GUARDAR
-    cantMovDerecha dd 0; GUARDAR
-    cantMovArribaIzquierda dd 0; GUARDAR
-    cantMovArribaDerecha dd 0; GUARDAR
-    cantMovAbajoIzquierda dd 0; GUARDAR
-    cantMovAbajoDerecha dd 0; GUARDAR
+    cantMovArriba dd 0
+    cantMovAbajo dd 0
+    cantMovIzquierda dd 0
+    cantMovDerecha dd 0
+    cantMovArribaIzquierda dd 0
+    cantMovArribaDerecha dd 0
+    cantMovAbajoIzquierda dd 0
+    cantMovAbajoDerecha dd 0
     escrituraBinario db "wb",0
 
 section .bss
@@ -125,7 +125,6 @@ section .bss
     posYOcaRaw resq 1
     movimientoTecla resb 1
     fileHandler resq 1
-
 
 section .text
 ; Rutinas
@@ -152,7 +151,7 @@ leer:
     ;Leo matriz
     mov rdi, matriz
     mov rsi, 98; (7*7=49) * 2(Dword) = 98
-    mov rdx, 1 ; !! No deberia ser rsi 2 (tamanio) y rdx 49 (cantidad)?
+    mov rdx, 1
     mov rcx, [fileHandler]
 
     sub rsp,8
@@ -338,7 +337,7 @@ crearGuardado:
     ;Guardo la matriz
     mov rdi, matriz
     mov rsi, 98; (7*7=49) * 2(Dword) = 98
-    mov rdx, 1;  !! No deberia ser rsi 2 (tamanio) y rdx 49 (cantidad)?
+    mov rdx, 1
     mov rcx, [fileHandler]
 
     sub rsp,8
@@ -624,7 +623,7 @@ personalizar:
 
     jmp personalizar
 rotarDerecha:
-    mov rcx, 98;
+    mov rcx, 98
     lea rsi, [matrizDerecha]
     lea rdi, [matriz]
     rep movsb
@@ -642,7 +641,7 @@ rotarDerecha:
 
     jmp rotarMatriz
 rotarIzquierda:
-    mov rcx, 98;
+    mov rcx, 98
     lea rsi, [matrizIzquierda]
     lea rdi, [matriz]
     rep movsb
@@ -659,7 +658,7 @@ rotarIzquierda:
 
     jmp rotarMatriz
 rotarArrriba:
-    mov rcx, 98;
+    mov rcx, 98
     lea rsi, [matrizArriba]
     lea rdi, [matriz]
     rep movsb
@@ -676,7 +675,7 @@ rotarArrriba:
 
     jmp rotarMatriz
 rotarAbajo:
-    mov rcx, 98;
+    mov rcx, 98
     lea rsi, [matrizAbajo]
     lea rdi, [matriz]
     rep movsb
@@ -953,7 +952,6 @@ mostrarEstadisticasZorro:
     mov r8, [cantMovDerecha]
     mov r9, [cantMovArribaIzquierda]
 
-    ; Solo dios sabe lo que sucede aca
     sub rsp,24
     mov rax, 0
     mov rax, qword [cantMovArribaDerecha]
