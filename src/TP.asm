@@ -204,6 +204,26 @@ leer:
     call fread
     add rsp,8
 
+    ;Leo Simbolo Zorro
+    mov rdi, cambiarSimboloZorro
+    mov rsi, 4
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
+    ;Leo Simbolo Oca
+    mov rdi, cambiarSimboloOca
+    mov rsi, 4
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fread
+    add rsp,8
+
     ;Leo estadisticas
     mov rdi, cantMovArriba
     mov rsi, 4
@@ -366,6 +386,26 @@ crearGuardado:
     ;Guardo la orientacion "hacia atras" a la que no pueden moverse las ocas
     mov rdi, movimientoAtras
     mov rsi, 4
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo Simbolo Zorro
+    mov rdi, cambiarSimboloZorro
+    mov rsi, 2
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    sub rsp,8
+    call fwrite
+    add rsp,8
+
+    ;Guardo Simbolo Oca
+    mov rdi, cambiarSimboloOca
+    mov rsi, 2
     mov rdx, 1
     mov rcx, [fileHandler]
 
