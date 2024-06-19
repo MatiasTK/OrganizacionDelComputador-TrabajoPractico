@@ -486,7 +486,7 @@ menuInicioConGuardado:
     sub rsp,8
     call printf
     add rsp,8
-    
+
     mov rdi, movimientoTecla
     sub rsp,8
     call gets
@@ -837,6 +837,7 @@ terminarMovimiento:
     lea rdi,matriz
     mov rsi, [posXZorro]
     mov rdx, [posYZorro]
+    mov rcx, [simboloOca]
 
     sub rsp,8
     call estaZorroEncerrado

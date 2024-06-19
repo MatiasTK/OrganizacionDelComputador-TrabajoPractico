@@ -4,17 +4,20 @@ extern validarLimites
 
 section .bss
     matrizDir resq 1
+    simboloOca resq 1
     posX resq 1
     posY resq 1
 section .text
 ; rdi matrizDir
 ; rsi posX
 ; rdx posY
+; rcx simboloOca
 ; rax -> 0 si no esta encerrada 1 si esta encerrada
 estaZorroEncerrado:
     mov [matrizDir], rdi
     mov [posX], rsi
     mov [posY], rdx
+    mov [simboloOca], rcx
     mov rax, 0
 chequearIzquierda:
     mov rdi, [posX]
@@ -42,7 +45,7 @@ chequearIzquierda:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     jne chequearDerecha
 
     ; Chequeo si se la puede comer
@@ -98,7 +101,7 @@ chequearDerecha:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     jne chequearArriba
 
     ; Chequeo si se la puede comer
@@ -154,7 +157,7 @@ chequearArriba:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al,[simboloOca]
     jne chequearAbajo
 
     ; Chequeo si se la puede comer
@@ -210,7 +213,7 @@ chequearAbajo:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     jne chequearArribaIzquierda
 
     ; Chequeo si se la puede comer
@@ -268,7 +271,7 @@ chequearArribaIzquierda:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al,[simboloOca]
     jne chequearArribaDerecha
 
     ; Chequeo si se la puede comer
@@ -330,7 +333,7 @@ chequearArribaDerecha:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al, [simboloOca]
     jne chequearAbajoIzquierda
 
     ; Chequeo si se la puede comer
@@ -392,7 +395,7 @@ chequearAbajoIzquierda:
     cmp al, " "
     je noEstaEncerrado
 
-    cmp al, "O"
+    cmp al,[simboloOca]
     jne chequearAbajoDerecha
 
     ; Chequeo si se la puede comer
