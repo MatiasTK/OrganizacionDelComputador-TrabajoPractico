@@ -1563,6 +1563,12 @@ moverseOca:
     cmp byte [movimientoTecla], al
     je volverAPreguntarOca
 
+    cmp byte [movimientoTecla], 'W'
+    je moverseArribaOca
+
+    cmp byte[movimientoTecla], 'w'
+    je moverseArribaOca
+
     cmp byte [movimientoTecla], 'S'
     je moverseAbajoOca
 
