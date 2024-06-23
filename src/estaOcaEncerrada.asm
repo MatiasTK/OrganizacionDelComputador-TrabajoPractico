@@ -1,3 +1,15 @@
+%macro mValidarLimites 0
+sub rsp,8
+call validarLimites
+add rsp,8
+%endmacro
+
+%macro mObtenerElemento 0
+sub rsp,8
+call obtenerElemento
+add rsp,8
+%endmacro
+
 global estaOcaEncerrada
 
 extern obtenerElemento
@@ -24,9 +36,7 @@ chequearIzquierda:
 
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearDerecha
@@ -37,21 +47,17 @@ chequearIzquierda:
 
     dec rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
-
+    mObtenerElemento
     cmp al, " "
     je esValido
+
 chequearDerecha:
     mov rdi, [posX]
     mov rsi, [posY]
 
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArriba
@@ -62,10 +68,7 @@ chequearDerecha:
 
     inc rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
-
+    mObtenerElemento
     cmp al, " "
     je esValido
 chequearArriba:
@@ -74,9 +77,7 @@ chequearArriba:
 
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajo
@@ -87,21 +88,14 @@ chequearArriba:
 
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
-
-    cmp al, " "
-    je esValido
+    mObtenerElemento
 chequearAbajo:
     mov rdi, [posX]
     mov rsi, [posY]
 
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne esValido
@@ -112,10 +106,7 @@ chequearAbajo:
 
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
-
+    mObtenerElemento
     cmp al, " "
     je esValido
 esInvalido:

@@ -1,3 +1,15 @@
+%macro mValidarLimites 0
+sub rsp,8
+call validarLimites
+add rsp,8
+%endmacro
+
+%macro mObtenerElemento 0
+sub rsp,8
+call obtenerElemento
+add rsp,8
+%endmacro
+
 global estaZorroEncerrado
 extern obtenerElemento
 extern validarLimites
@@ -25,9 +37,7 @@ chequearIzquierda:
 
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearDerecha
@@ -38,9 +48,7 @@ chequearIzquierda:
 
     dec rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -55,9 +63,7 @@ chequearIzquierda:
     dec rdi
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearDerecha
@@ -69,9 +75,7 @@ chequearIzquierda:
     dec rsi
     dec rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -81,9 +85,7 @@ chequearDerecha:
 
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArriba
@@ -94,9 +96,7 @@ chequearDerecha:
 
     inc rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -111,9 +111,7 @@ chequearDerecha:
     inc rdi
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArriba
@@ -125,9 +123,7 @@ chequearDerecha:
     inc rsi
     inc rsi
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -137,9 +133,7 @@ chequearArriba:
 
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajo
@@ -150,9 +144,7 @@ chequearArriba:
 
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -167,9 +159,7 @@ chequearArriba:
     dec rsi
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajo
@@ -181,9 +171,7 @@ chequearArriba:
     dec rdx
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -193,9 +181,7 @@ chequearAbajo:
 
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArribaIzquierda
@@ -206,9 +192,7 @@ chequearAbajo:
 
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -223,9 +207,7 @@ chequearAbajo:
     inc rsi
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArribaIzquierda
@@ -237,9 +219,7 @@ chequearAbajo:
     inc rdx
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -250,9 +230,7 @@ chequearArribaIzquierda:
     dec rsi
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArribaDerecha
@@ -264,9 +242,7 @@ chequearArribaIzquierda:
     dec rsi
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -283,9 +259,7 @@ chequearArribaIzquierda:
     dec rdi
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearArribaDerecha
@@ -299,9 +273,7 @@ chequearArribaIzquierda:
     dec rdx
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -312,9 +284,7 @@ chequearArribaDerecha:
     inc rdi
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajoIzquierda
@@ -326,9 +296,7 @@ chequearArribaDerecha:
     inc rsi
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -345,9 +313,7 @@ chequearArribaDerecha:
     dec rsi
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajoIzquierda
@@ -361,9 +327,7 @@ chequearArribaDerecha:
     dec rdx
     dec rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -374,9 +338,7 @@ chequearAbajoIzquierda:
     dec rdi
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajoDerecha
@@ -388,9 +350,7 @@ chequearAbajoIzquierda:
     dec rsi
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -407,9 +367,7 @@ chequearAbajoIzquierda:
     inc rsi
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne chequearAbajoDerecha
@@ -423,9 +381,7 @@ chequearAbajoIzquierda:
     inc rdx
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -436,9 +392,7 @@ chequearAbajoDerecha:
     inc rdi
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne estaEncerrado
@@ -450,9 +404,7 @@ chequearAbajoDerecha:
     inc rsi
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado
@@ -463,9 +415,7 @@ chequearAbajoDerecha:
     inc rsi
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax,0
     jne estaEncerrado
@@ -479,9 +429,7 @@ chequearAbajoDerecha:
     inc rdx
     inc rdx
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, " "
     je noEstaEncerrado

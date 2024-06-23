@@ -1,3 +1,15 @@
+%macro mObtenerElemento 0
+sub rsp,8
+call obtenerElemento
+add rsp,8
+%endmacro
+
+%macro mModificarElemento 0
+sub rsp,8
+call modificarElemento
+add rsp,8
+%endmacro
+
 global modificarSimboloOca
 
 extern obtenerElemento
@@ -23,9 +35,7 @@ reemplazarElementos:
     mov rdi, [matrizDir]
     mov rsi, [posX]
     mov rdx, [posY]
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, "O"
     je cambiarSimbolo
@@ -41,9 +51,7 @@ cambiarSimbolo:
     mov rdx, [posY]
     mov rcx, [simboloOca]
 
-    sub rsp,8
-    call modificarElemento
-    add rsp,8
+    mModificarElemento
 
     jmp avanzarFila
 avanzarColumna:

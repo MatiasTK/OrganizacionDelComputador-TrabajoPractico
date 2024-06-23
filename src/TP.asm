@@ -1,3 +1,154 @@
+%macro mEstaZorroEncerrado 0
+sub rsp,8
+call estaZorroEncerrado
+add rsp,8
+%endmacro
+
+%macro mBorrarGuardado 0
+sub rsp,8
+call borrarGuardado
+add rsp,8
+%endmacro
+
+%macro mMostrarEstadisticasZorro 0
+sub rsp,8
+call mostrarEstadisticasZorro
+add rsp,8
+%endmacro
+
+%macro mSscanf 0
+sub rsp,8
+call sscanf
+add rsp,8
+%endmacro
+
+%macro mValidarLimites 0
+sub rsp,8
+call validarLimites
+add rsp,8
+%endmacro
+
+%macro mObtenerElemento 0
+sub rsp,8
+call obtenerElemento
+add rsp,8
+%endmacro
+
+%macro mMoverElemento 0
+sub rsp,8
+call moverElemento
+add rsp,8
+%endmacro
+
+%macro mMoverSobreOca 0
+sub rsp, 8
+call moverSobreOca
+add rsp, 8
+%endmacro
+
+%macro mEstaOcaEncerrada 0
+sub rsp,8
+call estaOcaEncerrada
+add rsp,8
+%endmacro
+
+%macro mFread 0
+sub rsp,8
+call fread
+add rsp,8
+%endmacro
+
+%macro mFclose 0
+sub rsp,8
+call fclose
+add rsp,8
+%endmacro
+
+%macro mPrint 0
+sub rsp,8
+call printf
+add rsp,8
+%endmacro
+
+%macro mOpen 0
+sub rsp,8
+call fopen
+add rsp,8
+%endmacro
+
+%macro mRemove 0
+sub rsp,8
+call remove
+add rsp,8
+%endmacro
+
+%macro  mWrite 0
+sub rsp,8
+call fwrite
+add rsp,8
+%endmacro
+
+%macro mSystem 0
+sub rsp, 8
+call system
+add rsp, 8
+%endmacro
+
+%macro mGets 0
+sub rsp,8
+call gets
+add rsp,8
+%endmacro
+
+%macro mStrcpy 0
+sub rsp,8
+call strcpy
+add rsp,8
+%endmacro
+
+%macro mStrlen 0
+sub rsp,8
+call strLen
+add rsp,8
+%endmacro
+
+%macro mImprimiMatriz 0
+sub rsp,8
+call imprimirMatriz
+add rsp,8
+%endmacro
+
+%macro mLeerGuardado 0
+sub rsp,8
+call leerGuardado
+add rsp,8
+%endmacro
+
+%macro mMenuInicio 0
+sub rsp,8
+call menuInicio
+add rsp,8
+%endmacro
+
+%macro mModificarElemento 0
+sub rsp,8
+call modificarElemento
+add rsp,8
+%endmacro
+
+%macro mModificarSimboloOca 0
+sub rsp,8
+call modificarSimboloOca
+add rsp,8
+%endmacro
+
+%macro mCrearGuardado 0
+sub rsp,8
+call crearGuardado
+add rsp,8
+%endmacro
+
+
 global main
 extern imprimirMatriz
 extern printf
@@ -61,15 +212,16 @@ section .data
                 dw "-","-","O","O","O","-","-"
                 dw "-","-","O","O","O","-","-"
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaArriba db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaDerecha db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaIzquierda db "Teclas:",10,"      ↑ (W)",10,"      ↓ (S) → (D)",10,"SALIR (X)",10,0
-    msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A)       → (D)",10,"SALIR (X)",10,0
+    msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
+    msgMovimientoAyudaOcaArriba db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
+    msgMovimientoAyudaOcaDerecha db "Teclas:",10,"      ↑ (W)",10,"← (A) ↓ (S)      ",10,"SALIR (X)",10,"ELEGIR OTRA OCA (V)",10,0
+    msgMovimientoAyudaOcaIzquierda db "Teclas:",10,"      ↑ (W)",10,"      ↓ (S) → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
+    msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A)       → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
     msgSimboloZorro db "Simbolo actual del zorro: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSimboloOca db "Simbolo actual de la oca: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSeleccion db "Seleccion: ",0
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
+    msgOcasComidas db "Cantidad de ocas que se comieron: %i", 10, 0
     msgTurnoOcaRaw db "TURNO DE LA OCA",10,0
     msgOcaFila db "Elige la columna (X) de la oca a controlar: ", 0
     msgOcaColumna db "Elige la fila (Y) de la oca a controlar: ", 0
@@ -106,7 +258,7 @@ section .data
     posYZorro db 5
     posXOca dq 0
     posYOca dq 0
-    ocasMatadas db 0
+    ocasMatadas dd 0
     turnoActual db "Z"
     movimientoAtras db 'W'
     formatoPos db "%i",0
@@ -130,18 +282,14 @@ section .text
 ; Rutinas
 borrarGuardado:
     mov rdi, filename
-    sub rsp,8
-    call remove
-    add rsp,8
+    mRemove
 
-    ret
+    jmp terminar
 leerGuardado:
     mov rdi, filename
     mov rsi, modoLectura
 
-    sub rsp,8
-    call fopen
-    add rsp,8
+    mOpen
 
     cmp rax, 0
     jle errorLectura
@@ -154,9 +302,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo posX del Zorro
     mov rdi, posXZorro
@@ -164,9 +310,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo posY del Zorro
     mov rdi, posYZorro
@@ -174,9 +318,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo ocas comidas
     mov rdi, ocasMatadas
@@ -184,9 +326,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo turno actual
     mov rdi, turnoActual
@@ -194,9 +334,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo movimiento hacia atras, que es hacia donde las ocas no pueden ir
     mov rdi, movimientoAtras
@@ -204,9 +342,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo Simbolo Zorro
     mov rdi, simboloZorro
@@ -214,9 +350,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo Simbolo Oca
     mov rdi, simboloOca
@@ -224,9 +358,7 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     ;Leo estadisticas
     mov rdi, cantMovArriba
@@ -234,72 +366,56 @@ leer:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovAbajo
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovArribaIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovArribaDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovAbajoIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     mov rdi, cantMovAbajoDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fread
-    add rsp,8
+    mFread
 
     cmp rax,0
     jle eof
@@ -307,27 +423,20 @@ leer:
     jmp leer
 eof:
     mov rdi, [fileHandler]
-    sub rsp,8
-    call fclose
-    add rsp,8
-
+    mFclose
     jmp finLectura
 errorLectura:
     mov rdi, msgErrorLectura
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp finLectura
 finLectura:
-    ret
+    jmp terminar
 
 crearGuardado:
     mov rdi, filename
     mov rsi, modoEscritura
 
-    sub rsp,8
-    call fopen
-    add rsp,8
+    mOpen
 
     cmp rax, 0
     jle errorGuardado
@@ -340,9 +449,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     cmp rax, 1
     jne errorGuardado
@@ -353,9 +460,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo la posY del zorro
     mov rdi, posYZorro
@@ -363,9 +468,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo cantidad de ocas comidas
     mov rdi, ocasMatadas
@@ -373,9 +476,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo el turno
     mov rdi, turnoActual
@@ -383,9 +484,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo la orientacion "hacia atras" a la que no pueden moverse las ocas
     mov rdi, movimientoAtras
@@ -393,9 +492,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo Simbolo Zorro
     mov rdi, simboloZorro
@@ -403,9 +500,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo Simbolo Oca
     mov rdi, simboloOca
@@ -413,9 +508,7 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     ;Guardo estadisticas de movimiento
     mov rdi, cantMovArriba
@@ -423,72 +516,56 @@ crearGuardado:
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovAbajo
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovArribaIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovArribaDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovAbajoIzquierda
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     mov rdi, cantMovAbajoDerecha
     mov rsi, 4
     mov rdx, 1
     mov rcx, [fileHandler]
 
-    sub rsp,8
-    call fwrite
-    add rsp,8
+    mWrite
 
     cmp rax, 1
     jne errorGuardado
@@ -496,33 +573,24 @@ crearGuardado:
     ;Cierro archivo
     mov rdi, [fileHandler]
 
-    sub rsp,8
-    call fclose
-    add rsp,8
-
+    mFclose
     jmp finGuardado
 errorGuardado:
     mov rdi, msgErrorEscritura
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp finGuardado
 finGuardado:
-    ret
+    jmp terminar
 
 menuInicio:
     mov rdi, clear
-    sub rsp, 8
-    call system
-    add rsp, 8
+    mSystem
 
     ;Compruebo si hay partida guardada, para decidir si mostrarlo en el menu
     mov rdi, filename
     mov rsi, modoLectura
 
-    sub rsp, 8
-    call fopen
-    add rsp, 8
+    mOpen
     mov [fileHandler], rax
 
     ; Comprobar si la llamada a fopen falló
@@ -532,14 +600,10 @@ menuInicio:
 ;Hay partida guardada
 menuInicioConGuardado:
     mov rdi, msgMenuInicioConGuardado
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     cmp byte [movimientoTecla], '1'
     je nuevaPartida
@@ -551,22 +615,16 @@ menuInicioConGuardado:
     je personalizar
 
     mov rdi,msgErrorTeclaMenuInicio
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp menuInicioConGuardado
 
 ;No habia partida guardada
 menuInicioSinGuardado:
     mov rdi, msgMenuInicioSinGuardado
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     cmp byte [movimientoTecla], '1'
     je nuevaPartida
@@ -575,34 +633,24 @@ menuInicioSinGuardado:
     je personalizar
 
     mov rdi,msgErrorTeclaMenuInicio
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp menuInicioSinGuardado
 
 nuevaPartida:
     ; continua
-    ret
+    jmp terminar
 cargarPartida:
-    sub rsp,8
-    call leerGuardado
-    add rsp,8
-    ret
+    mLeerGuardado
+    jmp terminar
 personalizar:
     mov rdi, clear
-    sub rsp, 8
-    call system
-    add rsp, 8
+    mSystem
 
     mov rdi, msgMenuRotar
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     cmp byte [movimientoTecla], '1'
     je rotarMatriz
@@ -617,9 +665,7 @@ personalizar:
     je menuInicio
 
     mov rdi,msgErrorTeclaMenuInicio
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp personalizar
 rotarDerecha:
@@ -635,9 +681,7 @@ rotarDerecha:
 
     lea rdi, [msgMovimientoAyudaOca]
     lea rsi, [msgMovimientoAyudaOcaDerecha]
-    sub rsp,8
-    call strcpy
-    add rsp,8
+    mStrcpy
 
     jmp rotarMatriz
 rotarIzquierda:
@@ -652,9 +696,7 @@ rotarIzquierda:
 
     lea rdi, [msgMovimientoAyudaOca]
     lea rsi, [msgMovimientoAyudaOcaIzquierda]
-    sub rsp,8
-    call strcpy
-    add rsp,8
+    mStrcpy
 
     jmp rotarMatriz
 rotarArrriba:
@@ -669,9 +711,7 @@ rotarArrriba:
 
     lea rdi, [msgMovimientoAyudaOca]
     lea rsi, [msgMovimientoAyudaOcaArriba]
-    sub rsp,8
-    call strcpy
-    add rsp,8
+    mStrcpy
 
     jmp rotarMatriz
 rotarAbajo:
@@ -686,28 +726,20 @@ rotarAbajo:
 
     lea rdi, [msgMovimientoAyudaOca]
     lea rsi, [msgMovimientoAyudaOcaAbajo]
-    sub rsp,8
-    call strcpy
-    add rsp,8
+    mStrcpy
 
     jmp rotarMatriz
 rotarMatriz:
     sub rdi,rdi
     mov rdi, matriz
-    sub rsp,8
-    call imprimirMatriz
-    add rsp,8
+    mImprimiMatriz
 
 rotarMatrizCiclo:
     mov rdi, msgMenuRotarDireccion
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     cmp byte [movimientoTecla], '1'
     je rotarDerecha
@@ -725,27 +757,19 @@ rotarMatrizCiclo:
     je personalizar
 
     mov rdi,msgErrorTeclaMenuInicio
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp rotarMatrizCiclo
 cambiarSimboloZorro:
     mov rdi, msgSimboloZorro
     mov rsi, [simboloZorro]
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax, 1
     jne simboloInvalidoZorro
@@ -755,27 +779,19 @@ cambiarSimboloZorro:
     jmp personalizar
 simboloInvalidoZorro:
     mov rdi, msgErrorSimbolo
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp cambiarSimboloZorro
 cambiarSimboloOca:
     mov rdi, msgSimboloOca
     mov rsi, [simboloOca]
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax, 1
     jne simboloInvalidoOca
@@ -785,35 +801,25 @@ cambiarSimboloOca:
     jmp personalizar
 simboloInvalidoOca:
     mov rdi, msgErrorSimbolo
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp cambiarSimboloOca
 main:
-    sub rsp,8
-    call menuInicio
-    add rsp,8
+    mMenuInicio
 
 cambiarSimbolos:
     mov rdi, matriz
     mov rsi, [posXZorro]
     mov rdx, [posYZorro]
     mov rcx, [simboloZorro]
-    sub rsp,8
-    call modificarElemento
-    add rsp,8
+    mModificarElemento
 
     mov rdi, matriz
     mov rsi, [simboloOca]
-    sub rsp,8
-    call modificarSimboloOca
-    add rsp,8
+    mModificarSimboloOca
 empezarJuego:
     mov rdi,matriz
-    sub rsp,8
-    call imprimirMatriz
-    add rsp,8
+    mImprimiMatriz
 
     cmp byte[turnoActual], 'Z'
     jne comenzarMovimientoOca
@@ -822,31 +828,25 @@ comenzarMovimiento:
     je noComio
 
     mov rdi, msgTurnoZorroKill
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov byte[zorroComio], 0
 noComio:
     mov rdi,msgTurnoZorro
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
+
+    mov rsi, [ocasMatadas]
+    mov rdi, msgOcasComidas
+    mPrint
 
     mov rdi,msgMovimientoAyuda
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 preguntarMovimiento:
     mov rdi, msgSeleccion
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
-    sub rsp,8
     mov rdi, movimientoTecla
-    call gets
-    add rsp,8
+    mGets
 
     jmp validarTecla
 moverse:
@@ -904,24 +904,19 @@ moverse:
 
     cmp byte[movimientoTecla], 'x'
     je salirTecla
-
+    
     mov rdi,msgErrorTecla
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp preguntarMovimiento
 salirTecla:
-    sub rsp,8
-    call crearGuardado
-    add rsp,8
-    ret
+    mCrearGuardado
+    jmp terminar
+    
 terminarMovimiento:
     sub rdi,rdi
     mov rdi,matriz
-    sub rsp,8
-    call imprimirMatriz
-    add rsp,8
+    mImprimiMatriz
 
     cmp byte[ocasMatadas], 12
     je ganadorZorro
@@ -931,9 +926,7 @@ terminarMovimiento:
     mov rdx, [posYZorro]
     mov rcx, [simboloOca]
 
-    sub rsp,8
-    call estaZorroEncerrado
-    add rsp,8
+    mEstaZorroEncerrado
 
     cmp rax, 1
     je ganadorOca
@@ -966,83 +959,63 @@ mostrarEstadisticasZorro:
 
     add rsp, 16
 
-    ret
+    jmp terminar
 ganadorZorro:
+
+    mov rdi, clear
+    mSystem
+
     mov rdi,msgGanadorZorro
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
-    sub rsp,8
-    call borrarGuardado
-    add rsp,8
+    mBorrarGuardado
 
-    sub rsp,8
-    call mostrarEstadisticasZorro
-    add rsp,8
+    mMostrarEstadisticasZorro
 
-    ret
+    jmp terminar
 ganadorOca:
+
+    mov rdi, clear
+    mSystem
+
     mov rdi,msgGanadorOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
-    sub rsp,8
-    call borrarGuardado
-    add rsp,8
+    mBorrarGuardado
 
-    sub rsp,8
-    call mostrarEstadisticasZorro
-    add rsp,8
+    mMostrarEstadisticasZorro
 
-    ret
+    jmp terminar
 teclaPosicionInvalidaOca:
     mov rdi,msgErrorPosicionOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp cambiarTurnoOca
 comenzarMovimientoOca:
     mov rdi,msgTurnoOcaRaw
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 cambiarTurnoOca:
     mov rdi, msgOcaFila
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, posXOcaRaw
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     mov rdi, msgOcaColumna
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, posYOcaRaw
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 
     sub rdi,rdi
     mov rdi, posXOcaRaw
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax,1
     jne teclaPosicionInvalidaOca
 
     sub rdi,rdi
     mov rdi, posYOcaRaw
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax,1
     jne teclaPosicionInvalidaOca
@@ -1050,23 +1023,17 @@ cambiarTurnoOca:
     mov rdi, posXOcaRaw
     mov rsi, formatoPos
     mov rdx, posXOca
-    sub rsp,8
-    call sscanf
-    add rsp,8
+    mSscanf
 
     mov rdi, posYOcaRaw
     mov rsi, formatoPos
     mov rdx, posYOca
-    sub rsp,8
-    call sscanf
-    add rsp,8
+    mSscanf
 
     mov rdi, [posXOca]
     mov rsi, [posYOca]
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne ocaInvalida
@@ -1075,9 +1042,7 @@ cambiarTurnoOca:
     mov rsi, [posXOca]
     mov rdx, [posYOca]
 
-    sub rsp,8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, [simboloOca]
     jne ocaElegidaInvalida
@@ -1086,9 +1051,7 @@ cambiarTurnoOca:
     mov rsi, [posXOca]
     mov rdx, [posYOca]
 
-    sub rsp,8
-    call estaOcaEncerrada
-    add rsp,8
+    mEstaOcaEncerrada
 
     cmp rax, 1
     je ocaEncerrada
@@ -1096,47 +1059,33 @@ cambiarTurnoOca:
     mov byte[turnoActual], "O"
 
     mov rdi,matriz
-    sub rsp,8
-    call imprimirMatriz
-    add rsp,8
+    mImprimiMatriz
 
     mov rdi, msgTurnoOca
     mov rsi, [posXOca]
     mov rdx, [posYOca]
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, msgMovimientoAyudaOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp preguntarMovimientoOca
 ocaElegidaInvalida:
     mov rdi, msgErrorPosOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp cambiarTurnoOca
 ocaEncerrada:
     mov rdi, msgErrorOcaEncerrada
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp cambiarTurnoOca
 ocaInvalida:
     mov rdi, msgErrorPosicionOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp cambiarTurnoOca
 validarTecla:
     sub rdi,rdi
     mov rdi, movimientoTecla
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax, 1
     jne teclaInvalida
@@ -1144,29 +1093,21 @@ validarTecla:
     jmp moverse
 teclaInvalida:
     mov rdi,msgErrorTecla
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimiento
 movimientoInvalido:
     mov rdi,msgErrorPosicion
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimiento
 movimientoInvalidoKill:
     mov rdi,msgErrorOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimiento
 actualizarZorro:
     mov [posXZorro], rcx
     mov [posYZorro], r8
 
-    sub rsp,8
-    call moverElemento
-    add rsp,8
+    mMoverElemento
 
     jmp terminarMovimiento
 volverAJugarZorro:
@@ -1178,9 +1119,7 @@ moverseArriba:
     mov rsi, [posYZorro]
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1198,9 +1137,7 @@ moverseArriba:
     dec r8
     dec r8
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1230,9 +1167,7 @@ moverseAbajo:
     mov rsi, [posYZorro]
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1250,9 +1185,7 @@ moverseAbajo:
     inc r8
     inc r8
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1283,9 +1216,7 @@ moverseIzquierda:
     mov rsi, [posYZorro]
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1303,9 +1234,7 @@ moverseIzquierda:
     dec rcx
     dec rcx
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1335,9 +1264,7 @@ moverseDerecha:
     mov rsi, [posYZorro]
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1355,9 +1282,7 @@ moverseDerecha:
     inc rcx
     inc rcx
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1388,9 +1313,7 @@ moverseArribaIzquierda:
     dec rsi
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1414,9 +1337,7 @@ moverseArribaIzquierda:
     dec r8
 
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1449,9 +1370,7 @@ moverseArribaDerecha:
     dec rsi
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1474,9 +1393,7 @@ moverseArribaDerecha:
     dec r8
     dec r8
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1509,9 +1426,7 @@ moverseAbajoIzquierda:
     inc rdi
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1534,9 +1449,7 @@ moverseAbajoIzquierda:
     inc r8
     inc r8
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1569,9 +1482,7 @@ moverseAbajoDerecha:
     inc rdi
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalido
@@ -1594,9 +1505,7 @@ moverseAbajoDerecha:
     inc r8
     inc r8
 
-    sub rsp, 8
-    call moverSobreOca
-    add rsp, 8
+    mMoverSobreOca
 
     cmp rax,0
     jl movimientoInvalidoKill
@@ -1625,20 +1534,14 @@ moverseAbajoDerecha:
     jmp volverAJugarZorro
 preguntarMovimientoOca:
     mov rdi, msgSeleccion
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     mov rdi, movimientoTecla
-    sub rsp,8
-    call gets
-    add rsp,8
+    mGets
 validarTeclaOca:
     sub rdi,rdi
     mov rdi, movimientoTecla
-    sub rsp,8
-    call strLen
-    add rsp,8
+    mStrlen
 
     cmp rax, 1
     jne teclaInvalidaOca
@@ -1646,9 +1549,7 @@ validarTeclaOca:
     jmp moverseOca
 teclaInvalidaOca:
     mov rdi,msgErrorTecla
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimientoOca
 moverseOca:
     sub rax,rax
@@ -1661,12 +1562,6 @@ moverseOca:
 
     cmp byte [movimientoTecla], al
     je volverAPreguntarOca
-
-    cmp byte [movimientoTecla], 'W'
-    je moverseArribaOca
-
-    cmp byte[movimientoTecla], 'w'
-    je moverseArribaOca
 
     cmp byte [movimientoTecla], 'S'
     je moverseAbajoOca
@@ -1692,35 +1587,33 @@ moverseOca:
     cmp byte[movimientoTecla], 'x'
     je salirTecla
 
+    cmp byte[movimientoTecla], 'v'
+    je cambiarTurnoOca
+
+    cmp byte[movimientoTecla], 'V'
+    je cambiarTurnoOca
+
 volverAPreguntarOca:
     mov rdi,msgErrorTecla
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     jmp preguntarMovimientoOca
 
-    ret
+    jmp terminar
 movimientoInvalidoOca:
     mov rdi,msgErrorPosicion
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimientoOca
 movimientoInvalidoOcaOcupado:
     mov rdi,msgErrorMovOca
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
     jmp preguntarMovimientoOca
 moverseArribaOca:
     mov rdi, [posXOca]
     mov rsi, [posYOca]
     dec rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalidoOca
@@ -1730,9 +1623,7 @@ moverseArribaOca:
     mov rdx, [posYOca]
 
     dec rdx
-    sub rsp, 8
-    call obtenerElemento
-    add rsp, 8
+    mObtenerElemento
 
     cmp al, " "
     jne movimientoInvalidoOcaOcupado
@@ -1749,9 +1640,7 @@ moverseArribaOca:
 
     dec r8
 
-    sub rsp, 8
-    call moverElemento
-    add rsp, 8
+    mMoverElemento
 
     jmp terminarMovimiento
 moverseAbajoOca:
@@ -1759,9 +1648,7 @@ moverseAbajoOca:
     mov rsi, [posYOca]
     inc rsi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalidoOca
@@ -1771,9 +1658,7 @@ moverseAbajoOca:
     mov rdx, [posYOca]
 
     inc rdx
-    sub rsp, 8
-    call obtenerElemento
-    add rsp, 8
+    mObtenerElemento
 
     cmp al, " "
     jne movimientoInvalidoOcaOcupado
@@ -1790,9 +1675,7 @@ moverseAbajoOca:
 
     inc r8
 
-    sub rsp, 8
-    call moverElemento
-    add rsp, 8
+    mMoverElemento
 
     jmp terminarMovimiento
 moverseIzquierdaOca:
@@ -1800,9 +1683,7 @@ moverseIzquierdaOca:
     mov rsi, [posYOca]
     dec rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalidoOca
@@ -1812,9 +1693,7 @@ moverseIzquierdaOca:
     mov rdx, [posYOca]
 
     dec rsi
-    sub rsp, 8
-    call obtenerElemento
-    add rsp, 8
+    mObtenerElemento
 
     cmp al, " "
     jne movimientoInvalidoOcaOcupado
@@ -1831,9 +1710,7 @@ moverseIzquierdaOca:
 
     dec rcx
 
-    sub rsp, 8
-    call moverElemento
-    add rsp, 8
+    mMoverElemento
 
     jmp terminarMovimiento
 moverseDerechaOca:
@@ -1841,9 +1718,7 @@ moverseDerechaOca:
     mov rsi, [posYOca]
     inc rdi
 
-    sub rsp,8
-    call validarLimites
-    add rsp,8
+    mValidarLimites
 
     cmp rax, 0
     jne movimientoInvalidoOca
@@ -1853,9 +1728,7 @@ moverseDerechaOca:
     mov rdx, [posYOca]
 
     inc rsi
-    sub rsp, 8
-    call obtenerElemento
-    add rsp, 8
+    mObtenerElemento
 
     cmp al, " "
     jne movimientoInvalidoOcaOcupado
@@ -1872,8 +1745,9 @@ moverseDerechaOca:
 
     inc rcx
 
-    sub rsp, 8
-    call moverElemento
-    add rsp, 8
+    mMoverElemento
 
     jmp terminarMovimiento
+
+terminar:
+    ret

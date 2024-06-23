@@ -1,3 +1,14 @@
+%macro mSystem 0
+sub rsp, 8
+call system
+add rsp, 8
+%endmacro
+
+%macro mPrint 0
+sub rsp, 8
+call printf
+add rsp, 8
+%endmacro
 
 global imprimirMatriz
 
@@ -27,21 +38,15 @@ imprimirMatriz:
     mov word[indiceColumna], 1
 
     mov rdi, clear
-    sub rsp, 8
-    call system
-    add rsp, 8
+    mSystem
 
     mov rdi, msgColumnas
-    sub rsp, 8
-    call printf
-    add rsp, 8
+    mPrint
 mostrarFilaActual:
     sub rsi, rsi
     mov rdi, msgFilaActual
     mov si, [indiceFila]
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 siguienteElemento:
     ; (FILA-1)*LongFil + (COLUMNA-1)*LongElemento
     ; LongFil = LongElemento * CANT_COLUMNAS
@@ -67,9 +72,7 @@ siguienteElemento:
 
     mov rdi, formatoElementoMatriz
     mov rsi, [rax]
-    sub rsp,8
-    call printf
-    add rsp,8
+    mPrint
 
     inc word[indiceColumna]
     jmp siguienteElemento
@@ -77,9 +80,7 @@ siguienteLinea:
     inc word[indiceFila]
     mov word[indiceColumna], 1
     mov rdi, saltoLinea
-    sub rsp, 8
-    call printf
-    add rsp, 8
+    mPrint
 
     mov bx, [indiceFila]
     cmp bx, 8; Si llegue al final de la columna aumento la fila

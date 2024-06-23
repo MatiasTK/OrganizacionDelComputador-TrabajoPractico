@@ -1,3 +1,15 @@
+%macro mObtenerElemento 0
+sub rsp,8
+call obtenerElemento
+add rsp,8
+%endmacro
+
+%macro mValidarLimites 0
+sub rsp, 8
+call validarLimites
+add rsp, 8
+%endmacro
+
 global moverSobreOca
 
 extern moverElemento
@@ -30,9 +42,7 @@ moverSobreOca:
     mov rsi, [posX]
     mov rdx, [posY]
 
-    sub rsp, 8
-    call obtenerElemento
-    add rsp,8
+    mObtenerElemento
 
     cmp al, [simboloOca]
     je verificarSiSePuedeMatarOca
@@ -43,9 +53,7 @@ verificarSiSePuedeMatarOca:
     mov rdi, [posXKill]
     mov rsi, [posYKill]
 
-    sub rsp, 8
-    call validarLimites
-    add rsp, 8
+    mValidarLimites
 
     cmp rax, 0
     jne noSePudoMatar
@@ -54,9 +62,7 @@ verificarSiSePuedeMatarOca:
     mov rsi, [posXKill]
     mov rdx, [posYKill]
 
-    sub rsp, 8
-    call obtenerElemento
-    add rsp, 8
+    mObtenerElemento
 
     cmp al, [simboloOca]
     je noSePudoMatar
