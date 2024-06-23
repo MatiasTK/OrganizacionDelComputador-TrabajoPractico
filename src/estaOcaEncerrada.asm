@@ -30,6 +30,7 @@ estaOcaEncerrada:
     mov [posY], rdx
     sub rax,rax
     mov rax,0
+
 chequearIzquierda:
     mov rdi, [posX]
     mov rsi, [posY]
@@ -50,6 +51,7 @@ chequearIzquierda:
     mObtenerElemento
     cmp al, " "
     je esValido
+    
 
 chequearDerecha:
     mov rdi, [posX]
@@ -71,6 +73,8 @@ chequearDerecha:
     mObtenerElemento
     cmp al, " "
     je esValido
+    
+
 chequearArriba:
     mov rdi, [posX]
     mov rsi, [posY]
@@ -89,6 +93,10 @@ chequearArriba:
     dec rdx
 
     mObtenerElemento
+    cmp al, " "
+    je esValido
+    
+
 chequearAbajo:
     mov rdi, [posX]
     mov rsi, [posY]
@@ -109,6 +117,11 @@ chequearAbajo:
     mObtenerElemento
     cmp al, " "
     je esValido
+    
+    cmp al, "-"
+    je esInvalido
+    
+
 esInvalido:
     mov rax,1
     ret
