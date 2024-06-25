@@ -305,6 +305,14 @@ leer:
 
     mFread
 
+    ;Leo String Movimiento Atras
+    mov rdi, msgMovimientoAyudaOca
+    mov rsi, 57; (52+4)
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    mFread
+
     ;Leo posX del Zorro
     mov rdi, posXZorro
     mov rsi, 1
@@ -447,6 +455,17 @@ crearGuardado:
     ;Guardo la matriz
     mov rdi, matriz
     mov rsi, 98; (7*7=49) * 2(Dword) = 98
+    mov rdx, 1
+    mov rcx, [fileHandler]
+
+    mWrite
+
+    cmp rax, 1
+    jne errorGuardado
+
+    ;Guardo String Movimiento Atras
+    mov rdi, msgMovimientoAyudaOca
+    mov rsi, 57; (52+4)
     mov rdx, 1
     mov rcx, [fileHandler]
 
@@ -905,7 +924,7 @@ moverse:
 
     cmp byte[movimientoTecla], 'x'
     je salirTecla
-    
+
     mov rdi,msgErrorTecla
     mPrint
 
@@ -913,7 +932,7 @@ moverse:
 salirTecla:
     mCrearGuardado
     jmp terminar
-    
+
 terminarMovimiento:
     sub rdi,rdi
     mov rdi,matriz
