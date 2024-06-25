@@ -223,8 +223,8 @@ section .data
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
     msgOcasComidas db "Cantidad de ocas que se comieron: %i", 10, 0
     msgTurnoOcaRaw db "TURNO DE LA OCA",10,0
-    msgOcaColumna db "Elige la columna (X) de la oca a controlar: ", 0
-    msgOcaFila db "Elige la fila (Y) de la oca a controlar: ", 0
+    msgOcaFila db "Elige la columna (X) de la oca a controlar: ", 0
+    msgOcaColumna db "Elige la fila (Y) de la oca a controlar: ", 0
     msgTurnoOca db "TURNO DE LA OCA en la posicion X:%i Y:%i",10,0
     msgErrorTecla db "ERROR: La tecla ingresada no es valida",10,0
     msgErrorOca db "ERROR: No se puede comer a la oca",10,0
@@ -994,17 +994,29 @@ comenzarMovimientoOca:
     mov rdi,msgTurnoOcaRaw
     mPrint
 cambiarTurnoOca:
-    mov rdi, msgOcaColumna
+    mov rdi, msgOcaFila
     mPrint
 
     mov rdi, posXOcaRaw
     mGets
 
-    mov rdi, msgOcaFila
+    cmp byte[posXOcaRaw], "x"
+    je terminar
+
+    cmp byte[posXOcaRaw], "X"
+    je terminar
+
+    mov rdi, msgOcaColumna
     mPrint
 
     mov rdi, posYOcaRaw
     mGets
+
+    cmp byte[posYOcaRaw], "x"
+    je terminar
+
+    cmp byte[posYOcaRaw], "X"
+    je terminar
 
     sub rdi,rdi
     mov rdi, posXOcaRaw
