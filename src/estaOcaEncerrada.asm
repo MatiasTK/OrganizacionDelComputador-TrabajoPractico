@@ -51,7 +51,7 @@ chequearIzquierda:
     mObtenerElemento
     cmp al, " "
     je esValido
-    
+
 
 chequearDerecha:
     mov rdi, [posX]
@@ -73,7 +73,7 @@ chequearDerecha:
     mObtenerElemento
     cmp al, " "
     je esValido
-    
+
 
 chequearArriba:
     mov rdi, [posX]
@@ -95,7 +95,7 @@ chequearArriba:
     mObtenerElemento
     cmp al, " "
     je esValido
-    
+
 
 chequearAbajo:
     mov rdi, [posX]
@@ -106,7 +106,7 @@ chequearAbajo:
     mValidarLimites
 
     cmp rax,0
-    jne esValido
+    jne esInvalido
 
     mov rdi, [matrizDir]
     mov rsi, [posX]
@@ -117,10 +117,10 @@ chequearAbajo:
     mObtenerElemento
     cmp al, " "
     je esValido
-    
+
     cmp al, "-"
     je esInvalido
-    
+
 
 esInvalido:
     mov rax,1
