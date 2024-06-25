@@ -1024,10 +1024,10 @@ cambiarTurnoOca:
     mGets
 
     cmp byte[posXOcaRaw], "x"
-    je terminar
+    je salirTecla
 
     cmp byte[posXOcaRaw], "X"
-    je terminar
+    je salirTecla
 
     mov rdi, msgOcaColumna
     mPrint
@@ -1036,10 +1036,10 @@ cambiarTurnoOca:
     mGets
 
     cmp byte[posYOcaRaw], "x"
-    je terminar
+    je salirTecla
 
     cmp byte[posYOcaRaw], "X"
-    je terminar
+    je salirTecla
 
     sub rdi,rdi
     mov rdi, posXOcaRaw
