@@ -219,6 +219,7 @@ section .data
     msgMovimientoAyudaOcaAbajo db "Teclas:",10,"      ↑ (W)",10,"← (A)       → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
     msgSimboloZorro db "Simbolo actual del zorro: %c",10,"Seleccione un nuevo simbolo: ",0
     msgSimboloOca db "Simbolo actual de la oca: %c",10,"Seleccione un nuevo simbolo: ",0
+    msgSalir db "SALIR (X)", 10,0
     msgSeleccion db "Seleccion: ",0
     msgTurnoZorro db "TURNO DEL ZORRO",10,0
     msgOcasComidas db "Cantidad de ocas que se comieron: %i", 10, 0
@@ -994,6 +995,9 @@ comenzarMovimientoOca:
     mov rdi,msgTurnoOcaRaw
     mPrint
 cambiarTurnoOca:
+    mov rdi, msgSalir
+    mPrint
+
     mov rdi, msgOcaFila
     mPrint
 
