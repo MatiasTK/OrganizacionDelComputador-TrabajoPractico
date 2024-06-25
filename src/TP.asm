@@ -1014,6 +1014,9 @@ comenzarMovimientoOca:
     mov rdi,msgTurnoOcaRaw
     mPrint
 cambiarTurnoOca:
+
+    mov byte[turnoActual], "O"
+
     mov rdi, msgSalir
     mPrint
 
@@ -1090,8 +1093,6 @@ cambiarTurnoOca:
 
     cmp rax, 1
     je ocaEncerrada
-
-    mov byte[turnoActual], "O"
 
     mov rdi,matriz
     mImprimiMatriz
