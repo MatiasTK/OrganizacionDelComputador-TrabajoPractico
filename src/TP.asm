@@ -211,6 +211,7 @@ section .data
                     dw "O","O","O","O","O","O","O"
                     dw "-","-","O","O","O","-","-"
                     dw "-","-","O","O","O","-","-"
+
     msgMovimientoAyuda db "Teclas:",10,"↖ (Q) ↑ (W) ↗ (E)",10,"← (A) ↓ (S) → (D)", 10,"↙ (Z)       ↘ (C)",10,"SALIR (X)",10,0
     msgMovimientoAyudaOca db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
     msgMovimientoAyudaOcaArriba db "Teclas:",10,"← (A) ↓ (S) → (D)",10,"SALIR (X)",10, "ELEGIR OTRA OCA (V)",10,0
@@ -241,8 +242,6 @@ section .data
     msgGanadorOca db "JUEGO FINALIZADO: Ganan las ocas por encerrar al zorro",10,0
     msgTurnoZorroKill db "El zorro se comio una oca, vuelve a jugar", 10,0
     msgEstadisticasZorro db "ESTADISTICAS DEL ZORRO", 10, "Movimientos hacia arriba: %i", 10, "Movimientos hacia abajo: %i", 10, "Movimientos hacia la izquierda: %i", 10, "Movimientos hacia la derecha: %i", 10, "Movimientos hacia diagonal arriba izquierda: %i", 10, "Movimientos hacia diagonal arriba derecha: %i", 10, "Movimientos hacia diagonal abajo izquierda: %i", 10, "Movimientos hacia diagonal abajo derecha: %i", 10,0
-    msgMenuInicioConGuardado db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Cargar partida", 10, "(3) Personalizar", 10, "Eleccion:", 0
-    msgMenuInicioSinGuardado db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Personalizar", 10, "Eleccion:", 0
     msgMenuRotar db "Seleccione una opcion:", 10, "(1) Rotar matriz",10,"(2) Cambiar simbolo zorro",10, "(3) Cambiar simbolo oca",10, "(4) Volver", 10, "Eleccion:",0
     msgMenuRotarDireccion db "Seleccione una opcion:",10,"(1) Rotar a la derecha",10,"(2) Rotar a la izquierda",10,"(3) Rotar a arriba",10, "(4) Rotar a abajo",10,"(5) Volver", 10, "Eleccion:",0
     msgErrorTeclaMenuInicio db "La opcion ingresada no es valida", 10,0
