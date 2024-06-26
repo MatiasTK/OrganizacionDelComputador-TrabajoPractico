@@ -273,6 +273,10 @@ section .data
     cantMovAbajoDerecha dd 0
     escrituraBinario db "wb",0
 
+    msgMenuInicioBasico db "Seleccione una opcion:", 10, "(1) Nueva partida", 10, "(2) Personalizar", 10, 0
+    msgMenuOpcionGuardado db "(3) Cargar partida", 10, 0
+    msgMenuEleccion db "Eleccion:", 0
+
 section .bss
     posXOcaRaw resq 1
     posYOcaRaw resq 1
@@ -613,15 +617,26 @@ menuInicio:
     mOpen
     mov [fileHandler], rax
 
-    ; Comprobar si la llamada a fopen falló
-    cmp rax, 0
-    je menuInicioSinGuardado
-
-;Hay partida guardada
-menuInicioConGuardado:
-    mov rdi, msgMenuInicioConGuardado
+opcionesMenu:
+    ; Opciones basicas
+    mov rdi, msgMenuInicioBasico
     mPrint
 
+    ; Comprobar si la llamada a fopen falló, cuyo caso salta el print
+    mov rdi, filename
+    mov rsi, modoLectura
+
+    mOpen
+    mov [fileHandler], rax
+
+    cmp rax, 0
+    je continuarMenuSinGuardado
+
+    mov rdi, msgMenuOpcionGuardado
+    mPrint
+continuarMenuSinGuardado:
+
+    ; Tomo input
     mov rdi, movimientoTecla
     mGets
 
@@ -629,37 +644,32 @@ menuInicioConGuardado:
     je nuevaPartida
 
     cmp byte [movimientoTecla], '2'
+    je personalizar
+
+    cmp byte [movimientoTecla], '3' ;Chequear si esta opcion esta disponible
     je cargarPartida
 
-    cmp byte [movimientoTecla], '3'
-    je personalizar
-
+MenuTeclaInvalida:
+    ; La opcion ingresada no es valida
     mov rdi,msgErrorTeclaMenuInicio
     mPrint
-    jmp menuInicioConGuardado
+    jmp opcionesMenu
 
-;No habia partida guardada
-menuInicioSinGuardado:
-    mov rdi, msgMenuInicioSinGuardado
-    mPrint
-
-    mov rdi, movimientoTecla
-    mGets
-
-    cmp byte [movimientoTecla], '1'
-    je nuevaPartida
-
-    cmp byte [movimientoTecla], '2'
-    je personalizar
-
-    mov rdi,msgErrorTeclaMenuInicio
-    mPrint
-    jmp menuInicioSinGuardado
 
 nuevaPartida:
     ; continua
     jmp terminar
 cargarPartida:
+    ; Esto esta por si elije cargar partida cuando no hay partida cargada
+    mov rdi, filename
+    mov rsi, modoLectura
+
+    mOpen
+    mov [fileHandler], rax
+    
+    cmp rax, 0
+    je MenuTeclaInvalida
+
     mLeerGuardado
     jmp terminar
 personalizar:
